@@ -173,9 +173,22 @@ function bundleFrom(docs: DocMap, field: "draft" | "published"): ContentBundle {
   };
 }
 
-/** Content the public site renders. */
+/**
+ * Content the public site renders.
+ *
+ * If the Supabase backend is briefly unavailable (outage, cold start, bad
+ * credentials) the marketing site still renders the shipped defaults rather
+ * than failing, while the error is logged for follow-up. Admin reads/writes
+ * deliberately do NOT fall back, so edits never silently land in the wrong place.
+ */
 export async function getPublishedBundle(): Promise<ContentBundle> {
-  return bundleFrom(await readDocs(), "published");
+  try {
+    return bundleFrom(await readDocs(), "published");
+  } catch (error) {
+    if (storageBackend() === "files") throw error;
+    console.error("[content] published content unavailable — serving shipped defaults", error);
+    return structuredClone(defaultBundle);
+  }
 }
 
 /** Content the admin area edits (includes unpublished changes). */
