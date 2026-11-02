@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+ * ---------------------------------------------------------------------------
+ * Humphinegraphix brand theme
+ * ---------------------------------------------------------------------------
+ * Every value below that the studio has not supplied yet is marked
+ * PLACEHOLDER_. Replace the values here and the whole site updates, because
+ * components only ever reference these tokens (via Tailwind utilities such as
+ * `bg-brand-primary` or the CSS variables directly).
+ *
+ * Palette rationale (placeholder direction): deep ink navy for authority,
+ * warm rust/amber accent for the "print & ink" feel, warm paper neutrals.
+ * ---------------------------------------------------------------------------
+ */
+@theme {
+  /* ---- Brand colours (PLACEHOLDER) -------------------------------------- */
+  --color-brand-primary: #10233f; /* PLACEHOLDER_BRAND_PRIMARY (ink navy) */
+  --color-brand-primary-soft: #1c3557; /* PLACEHOLDER_BRAND_PRIMARY_SOFT */
+  --color-brand-accent: #d9622b; /* PLACEHOLDER_BRAND_ACCENT (rust) */
+  /* Darker rust used for small text so it meets WCAG AA on paper. */
+  --color-brand-accent-strong: #b8481a; /* PLACEHOLDER_BRAND_ACCENT_STRONG */
+  --color-brand-accent-soft: #f6e3d7; /* PLACEHOLDER_BRAND_ACCENT_SOFT */
+  --color-brand-gold: #e8b04b; /* PLACEHOLDER_BRAND_SECONDARY (gold) */
+  --color-brand-ink: #12100e; /* PLACEHOLDER_BRAND_INK (body text) */
+  --color-brand-muted: #5c6472; /* PLACEHOLDER_BRAND_MUTED (secondary text) */
+  --color-brand-paper: #faf6f0; /* PLACEHOLDER_BRAND_PAPER (page bg) */
+  --color-brand-paper-deep: #f1e9de; /* PLACEHOLDER_BRAND_PAPER_DEEP */
+  --color-brand-line: #e3d8c9; /* PLACEHOLDER_BRAND_LINE (borders) */
+  --color-brand-surface: #ffffff; /* PLACEHOLDER_BRAND_SURFACE (cards) */
+
+  /* ---- Typography (PLACEHOLDER) ----------------------------------------- */
+  /* PLACEHOLDER_HEADING_FONT — swap for the studio's licensed display face. */
+  --font-heading: "Archivo", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  /* PLACEHOLDER_BODY_FONT — swap for the studio's licensed text face. */
+  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --radius-card: 0.25rem;
+  --shadow-card: 0 1px 2px rgb(18 16 14 / 0.04), 0 12px 32px -18px rgb(18 16 14 / 0.28);
+  --shadow-lift: 0 2px 4px rgb(18 16 14 / 0.06), 0 24px 48px -24px rgb(18 16 14 / 0.35);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-brand-paper);
+    color: var(--color-brand-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-accent);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Shared page container. */
+  .container-page {
+    width: 100%;
+    max-width: 74rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Small uppercase section label. */
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand-accent-strong);
+  }
+}
