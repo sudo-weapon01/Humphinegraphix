@@ -200,6 +200,25 @@ No code changes are needed. After deploying:
 1. Sign in at `https://your-domain/admin` with your configured credentials.
 2. Make an edit and press **Publish** to confirm the live site updates.
 
+### Current deployment status
+
+This repository is connected to the Vercel project **humphinegraphix**
+(team Adv3ntur0s), deploying `main` to production.
+
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Environment variables | `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL` (all set for Production, Preview and Development) |
+| Content store | Supabase project `bnlaxnagdhgkwushorxa`, tables `content_docs` + `quote_requests`, seeded with the current published copy |
+| Public URL | `https://humphinegraphix.vercel.app` |
+
+> **Deployment Protection:** the Vercel project currently has *Vercel
+> Authentication* enabled (`all_except_custom_domains`), which gates every
+> `*.vercel.app` URL behind a Vercel login. To make the marketing site public,
+> open **Project → Settings → Deployment Protection → Vercel Authentication**
+> and set it to **Disabled** (or attach a custom domain, which is exempt from
+> this rule). Until then, visitors — and search engines — will not reach the site.
+
 ### Any Node host
 
 ```bash
