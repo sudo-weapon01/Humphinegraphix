@@ -208,16 +208,18 @@ This repository is connected to the Vercel project **humphinegraphix**
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
-| Environment variables | `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL` (all set for Production, Preview and Development) |
-| Content store | Supabase project `bnlaxnagdhgkwushorxa`, tables `content_docs` + `quote_requests`, seeded with the current published copy |
+| Framework preset | `nextjs` (also pinned in `vercel.json`) |
 | Public URL | `https://humphinegraphix.vercel.app` |
+| Environment variables | `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL` (Production, Preview, Development) |
+| Content store | Supabase project `bnlaxnagdhgkwushorxa` — `content_docs` (seeded) + `quote_requests` |
 
-> **Deployment Protection:** the Vercel project currently has *Vercel
-> Authentication* enabled (`all_except_custom_domains`), which gates every
-> `*.vercel.app` URL behind a Vercel login. To make the marketing site public,
-> open **Project → Settings → Deployment Protection → Vercel Authentication**
-> and set it to **Disabled** (or attach a custom domain, which is exempt from
-> this rule). Until then, visitors — and search engines — will not reach the site.
+> **If every URL returns Vercel's own 404 ("This page doesn't exist"),** check
+> that the project's framework preset is set to **Next.js**
+> (Project → Settings → Build & Development Settings → Framework Preset).
+> With no preset, Vercel uploads the repository as a static site and no route
+> matches — the public pages, `/api/*`, and static files all 404 while the build
+> log still shows a successful `next build`. `vercel.json` now pins the preset so
+> a recreated project picks it up automatically. Redeploy after changing it.
 
 ### Any Node host
 
