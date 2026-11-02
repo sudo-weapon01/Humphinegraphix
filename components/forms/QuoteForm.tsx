@@ -22,12 +22,12 @@ type QuoteFormProps = {
 
 type FieldErrors = Partial<Record<keyof QuoteInput, string>>;
 
-const inputClass =
-  "w-full rounded-[2px] border border-brand-line bg-brand-surface px-3.5 py-2.5 text-sm text-brand-ink placeholder:text-brand-muted/75 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-accent/30";
+const inputClass = "field-input";
 
-const labelClass = "block text-[0.8rem] font-semibold text-brand-primary";
+const labelClass =
+  "block font-mono text-[0.6rem] uppercase tracking-[0.16em] text-brand-primary";
 
-const errorClass = "mt-1.5 text-[0.78rem] font-medium text-[#b3261e]";
+const errorClass = "mt-1.5 text-[0.78rem] font-medium text-[#a4221a]";
 
 export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
   const uid = useId();
@@ -120,16 +120,16 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
   if (status === "success") {
     return (
       <div
-        className="rounded-[3px] border border-brand-line bg-brand-surface p-8 md:p-10"
+        className="border border-brand-primary bg-brand-surface p-8 md:p-10"
         role="status"
         aria-live="polite"
       >
-        <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-accent-soft text-brand-accent-strong">
+        <span className="grid h-11 w-11 place-items-center bg-brand-accent text-brand-primary">
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
             <path d="M4 12.5l5 5L20 6.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
-        <h3 className="mt-5 font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand-primary">
+        <h3 className="mt-5 font-heading text-2xl font-extrabold tracking-[-0.04em] text-brand-primary">
           {copy.successTitle}
         </h3>
         <p className="mt-3 max-w-md text-sm leading-relaxed text-brand-muted">{copy.successBody}</p>
@@ -150,14 +150,23 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
     <form
       noValidate
       onSubmit={handleSubmit}
-      className="rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+      className="border border-brand-line bg-brand-surface p-6 md:p-8"
       aria-labelledby={`${uid}-form-title`}
     >
-      <div className="mb-6">
-        <h2 id={`${uid}-form-title`} className="font-heading text-xl font-bold tracking-[-0.02em] text-brand-primary">
+      <div className="mb-7 border-b border-brand-line pb-5">
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="index text-brand-accent-strong">
+            01
+          </span>
+          <span className="label text-brand-muted">Quote request</span>
+        </div>
+        <h2
+          id={`${uid}-form-title`}
+          className="mt-3 font-heading text-[1.5rem] font-extrabold tracking-[-0.04em] text-brand-primary"
+        >
           {copy.formTitle}
         </h2>
-        <p className="mt-1.5 text-[0.82rem] text-brand-muted">{copy.formNote}</p>
+        <p className="mt-2 text-[0.85rem] leading-relaxed text-brand-muted">{copy.formNote}</p>
       </div>
 
       {hasFieldErrors ? (
@@ -165,14 +174,14 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
           ref={summaryRef}
           tabIndex={-1}
           role="alert"
-          className="mb-5 rounded-[2px] border border-[#b3261e]/30 bg-[#fbeceb] p-3 text-[0.82rem] text-[#8c1d18]"
+          className="mb-5 border border-[#a4221a]/30 bg-[#fbeceb] p-3 text-[0.82rem] text-[#8c1d18]"
         >
           Please check the highlighted fields below.
         </div>
       ) : null}
 
       {submitError ? (
-        <div role="alert" className="mb-5 rounded-[2px] border border-[#b3261e]/30 bg-[#fbeceb] p-3 text-[0.82rem] text-[#8c1d18]">
+        <div role="alert" className="mb-5 border border-[#a4221a]/30 bg-[#fbeceb] p-3 text-[0.82rem] text-[#8c1d18]">
           {submitError}
         </div>
       ) : null}
@@ -229,7 +238,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div>
           <label htmlFor={fieldId("phone")} className={labelClass}>
-            Phone <span className="font-normal text-brand-muted">(optional)</span>
+            Phone <span className="ml-1 font-body text-[0.6rem] normal-case tracking-normal text-brand-muted">(optional)</span>
           </label>
           <input
             id={fieldId("phone")}
@@ -281,7 +290,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div>
           <label htmlFor={fieldId("eventDate")} className={labelClass}>
-            Event date <span className="font-normal text-brand-muted">(optional)</span>
+            Event date <span className="ml-1 font-body text-[0.6rem] normal-case tracking-normal text-brand-muted">(optional)</span>
           </label>
           <input
             id={fieldId("eventDate")}
@@ -303,7 +312,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div>
           <label htmlFor={fieldId("deadline")} className={labelClass}>
-            Deadline <span className="font-normal text-brand-muted">(optional)</span>
+            Deadline <span className="ml-1 font-body text-[0.6rem] normal-case tracking-normal text-brand-muted">(optional)</span>
           </label>
           <input
             id={fieldId("deadline")}
@@ -344,7 +353,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
               </option>
             ))}
           </select>
-          <p id={`${fieldId("budgetRange")}-hint`} className="mt-1.5 text-[0.75rem] text-brand-muted">
+          <p id={`${fieldId("budgetRange")}-hint`} className="mt-1.5 text-[0.75rem] leading-relaxed text-brand-muted">
             A range only — this helps us scope the quote. Nothing is charged online.
           </p>
           {errors.budgetRange ? (
@@ -367,10 +376,10 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
             onChange={(event) => update("message", event.target.value)}
             aria-invalid={Boolean(errors.message)}
             aria-describedby={`${fieldId("message")}-hint${errors.message ? ` ${errorId("message")}` : ""}`}
-            className={`mt-1.5 resize-y ${inputClass}`}
+            className={`mt-1.5 min-h-28 resize-y ${inputClass}`}
             placeholder="What is the flyer for, where will it be seen, and what should people do after reading it?"
           />
-          <p id={`${fieldId("message")}-hint`} className="mt-1.5 text-[0.75rem] text-brand-muted">
+          <p id={`${fieldId("message")}-hint`} className="mt-1.5 text-[0.75rem] leading-relaxed text-brand-muted">
             A few sentences is plenty. Include the venue or business name if it&apos;s relevant.
           </p>
           {errors.message ? (
@@ -403,7 +412,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
         />
       </div>
 
-      <div className="mt-7 flex flex-wrap items-center gap-4">
+      <div className="mt-7 flex flex-wrap items-center gap-4 border-t border-brand-line pt-6">
         <Button type="submit" size="lg" disabled={status === "submitting"}>
           {status === "submitting" ? (
             <>
@@ -419,8 +428,8 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
             </>
           )}
         </Button>
-        <p className="text-[0.75rem] leading-relaxed text-brand-muted">
-          No payment details, no account. Just a reply from the studio.
+        <p className="font-mono text-[0.58rem] uppercase leading-relaxed tracking-[0.14em] text-brand-muted">
+          No payment · No account · Reply by email
         </p>
       </div>
 

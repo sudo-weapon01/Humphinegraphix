@@ -96,7 +96,7 @@ export function PublishBar({ status }: { status: PublishStatus }) {
             type="button"
             onClick={() => void call("discard")}
             disabled={busy !== null || !pending}
-            className="rounded-[2px] px-3 py-2 text-[0.78rem] font-semibold text-brand-muted underline decoration-brand-line underline-offset-4 hover:text-brand-primary disabled:opacity-40"
+            className="rounded-none px-3 py-2 text-[0.78rem] font-semibold text-brand-muted underline decoration-brand-line underline-offset-4 hover:text-brand-primary disabled:opacity-40"
           >
             {busy === "discard" ? "Discarding…" : "Discard drafts"}
           </button>
@@ -107,7 +107,7 @@ export function PublishBar({ status }: { status: PublishStatus }) {
         <div className="container-page pb-3">
           <p
             role={message.tone === "error" ? "alert" : "status"}
-            className={`rounded-[2px] px-3 py-2 text-[0.78rem] ${
+            className={`rounded-none px-3 py-2 text-[0.78rem] ${
               message.tone === "error"
                 ? "border border-[#b3261e]/30 bg-[#fbeceb] text-[#8c1d18]"
                 : "border border-emerald-700/25 bg-emerald-50 text-emerald-900"

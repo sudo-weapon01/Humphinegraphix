@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { getSiteContent } from "@/lib/content/public";
 import { CtaBand } from "@/components/site/CtaBand";
 import { FaqList } from "@/components/site/FaqList";
+import { Marquee } from "@/components/site/Marquee";
+import { PageHero } from "@/components/site/PageHero";
+import { SectionHeading } from "@/components/site/SectionHeading";
 import { WhatYouGet } from "@/components/site/WhatYouGet";
 import { ButtonLink } from "@/components/ui/Button";
 import { pageMetadata } from "@/lib/seo";
@@ -18,93 +21,100 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <header className="border-b border-brand-line bg-brand-surface/60">
-        <div className="container-page py-14 md:py-20">
-          <p className="eyebrow">Services</p>
-          <h1 className="mt-4 max-w-3xl font-heading text-[clamp(2.1rem,5.4vw,3.6rem)] font-extrabold leading-[1.0] tracking-[-0.04em] text-brand-primary">
-            {pages.services.title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-[1rem] leading-relaxed text-brand-muted">
-            {pages.services.intro}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="/contact" size="lg">
-              Request a quote <span aria-hidden="true">→</span>
+      <PageHero
+        index="02"
+        label="Services"
+        title={pages.services.title}
+        intro={pages.services.intro}
+        aside={
+          <div className="flex flex-col gap-2">
+            <ButtonLink href="/contact" size="lg" className="justify-between">
+              Request a quote <span aria-hidden="true" className="arrow">→</span>
             </ButtonLink>
-            <ButtonLink href="/portfolio" size="lg" variant="outline">
+            <ButtonLink href="/portfolio" size="lg" variant="outline" className="justify-between">
               See the portfolio
             </ButtonLink>
           </div>
-        </div>
-      </header>
+        }
+      />
 
-      <section aria-label="Flyer services" className="container-page py-16 md:py-20">
-        <ul className="grid gap-5 md:grid-cols-2">
+      <section aria-label="Flyer services" className="container-page py-16 md:py-24">
+        <ul className="border-t border-brand-line">
           {services.map((service, index) => (
             <li
               key={service.id}
-              className="flex flex-col rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+              className="group grid gap-6 border-b border-brand-line py-9 md:grid-cols-[7rem_1fr_1fr] md:items-start md:gap-10"
             >
-              <div className="flex items-baseline justify-between gap-4">
-                <h2 className="font-heading text-xl font-bold tracking-[-0.025em] text-brand-primary md:text-2xl">
-                  {service.name}
-                </h2>
-                <span aria-hidden="true" className="font-heading text-sm font-bold tabular-nums text-brand-line">
+              <div className="flex items-center gap-3 md:block">
+                <span aria-hidden="true" className="display text-[2.4rem] leading-none text-brand-line transition-colors duration-300 group-hover:text-brand-accent-strong">
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-brand-muted">
-                {service.description}
-              </p>
+
+              <div>
+                <h2 className="font-heading text-[1.3rem] font-extrabold tracking-[-0.03em] text-brand-primary md:text-[1.5rem]">
+                  {service.name}
+                </h2>
+                <p className="mt-3 max-w-md text-[0.9rem] leading-relaxed text-brand-muted">
+                  {service.description}
+                </p>
+              </div>
+
               {service.flyerTypes.length > 0 ? (
-                <>
-                  <h3 className="mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-primary/60">
-                    Flyer types
-                  </h3>
-                  <ul className="mt-3 flex flex-wrap gap-2">
+                <div className="md:border-l md:border-brand-line md:pl-10">
+                  <h3 className="label text-brand-muted">Flyer types</h3>
+                  <ul className="mt-4 flex flex-wrap gap-2">
                     {service.flyerTypes.map((type) => (
                       <li
                         key={type}
-                        className="rounded-full border border-brand-line bg-brand-paper px-3 py-1 text-[0.75rem] text-brand-primary/80"
+                        className="border border-brand-line bg-brand-surface px-2.5 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-brand-primary/80 transition-colors group-hover:border-brand-primary/30"
                       >
                         {type}
                       </li>
                     ))}
                   </ul>
-                </>
+                </div>
               ) : null}
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-label="Turnaround and inclusions" className="container-page">
-        <div className="grid gap-6 rounded-[3px] border border-brand-line bg-brand-paper-deep p-7 md:grid-cols-[1.4fr_1fr] md:p-10">
+      <Marquee
+        tone="paper"
+        items={["Fixed quote before design", "Print-ready files", "Social crops", "One revision round", "No online payment"]}
+      />
+
+      <section aria-label="Turnaround and inclusions" className="container-page py-16 md:py-24">
+        <div className="grid gap-10 border border-brand-line bg-brand-surface p-7 md:grid-cols-[1.3fr_1fr] md:p-10">
           <div>
-            <h2 className="font-heading text-xl font-bold tracking-[-0.02em] text-brand-primary">
+            <span aria-hidden="true" className="index text-brand-accent-strong">
+              03.1
+            </span>
+            <h2 className="mt-4 display text-[clamp(1.6rem,3.6vw,2.5rem)] text-brand-primary">
               Turnaround &amp; what&apos;s included
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-brand-primary/75">
+            <p className="mt-4 max-w-lg text-[0.95rem] leading-relaxed text-brand-muted">
               {pages.services.turnaroundNote}
             </p>
           </div>
-          <ul className="space-y-2.5 border-brand-line text-sm text-brand-primary/80 md:border-l md:pl-8">
+          <ul className="space-y-3 md:border-l md:border-brand-line md:pl-10">
             {[
               "Print-ready PDF with correct bleed",
               "PNG/JPG exports for social and messaging",
               "One revision round included",
               "Full usage rights for your flyer",
             ].map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <span aria-hidden="true" className="mt-1.5 h-1 w-1 shrink-0 bg-brand-accent" />
-                {item}
+              <li key={item} className="flex items-start gap-3 border-b border-brand-line pb-3 last:border-0 last:pb-0">
+                <span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-brand-accent" />
+                <span className="text-[0.88rem] leading-relaxed text-brand-primary/85">{item}</span>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <div className="mt-16 border-t border-brand-line">
+      <div className="border-t border-brand-line">
         <WhatYouGet />
       </div>
 
@@ -113,20 +123,21 @@ export default async function ServicesPage() {
         intro="Straight answers about turnaround, files, and how quotes work."
       />
 
-      <section aria-label="Choosing a flyer" className="container-page mt-16">
-        <div className="max-w-2xl">
-          <h2 className="font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand-primary">
+      <section aria-labelledby="choosing-heading" className="container-page pb-16 md:pb-24">
+        <div className="max-w-3xl border-t border-brand-line pt-7">
+          <h2
+            id="choosing-heading"
+            className="display text-[clamp(1.7rem,3.9vw,2.6rem)] text-brand-primary"
+          >
             {pages.services.closingTitle}
           </h2>
-          <p className="mt-3 text-[0.975rem] leading-relaxed text-brand-muted">
+          <p className="mt-4 text-[0.975rem] leading-relaxed text-brand-muted">
             {pages.services.closingBody}
           </p>
         </div>
       </section>
 
-      <div className="mt-16">
-        <CtaBand home={pages.home} />
-      </div>
+      <CtaBand home={pages.home} />
     </>
   );
 }

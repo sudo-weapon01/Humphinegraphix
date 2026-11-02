@@ -17,7 +17,7 @@ export default async function PrivacyPage() {
 
   return (
     <article className="container-page py-14 md:py-20">
-      <nav aria-label="Breadcrumb" className="text-[0.8rem] text-brand-muted">
+      <nav aria-label="Breadcrumb" className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-brand-muted">
         <ol className="flex items-center gap-2">
           <li>
             <Link href="/" className="hover:text-brand-primary">
@@ -31,31 +31,33 @@ export default async function PrivacyPage() {
         </ol>
       </nav>
 
-      <header className="mt-6 max-w-3xl">
-        <p className="eyebrow">Legal</p>
-        <h1 className="mt-4 font-heading text-[clamp(2rem,5vw,3.2rem)] font-extrabold leading-[1.02] tracking-[-0.04em] text-brand-primary">
+      <header className="mt-8 max-w-3xl border-t border-brand-line pt-6">
+        <div className="flex items-center gap-3">
+          <span aria-hidden="true" className="index text-brand-accent-strong">
+            06
+          </span>
+          <span className="label text-brand-muted">Legal</span>
+        </div>
+        <h1 className="mt-5 display text-[clamp(2.2rem,5.6vw,3.8rem)] text-brand-primary">
           {privacy.title}
         </h1>
         <p className="mt-5 text-[1rem] leading-relaxed text-brand-muted">{privacy.intro}</p>
         {privacy.updated ? (
-          <p className="mt-4 text-[0.8rem] text-brand-muted">
-            <span className="font-semibold uppercase tracking-[0.14em]">Updated</span>{" "}
-            {privacy.updated}
+          <p className="mt-5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-brand-muted">
+            Updated <span className="text-brand-primary">{privacy.updated}</span>
           </p>
         ) : null}
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[0.32fr_0.68fr]">
         <nav aria-label="Privacy sections" className="lg:sticky lg:top-24 lg:self-start">
-          <h2 className="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-brand-muted">
-            On this page
-          </h2>
+          <h2 className="label text-brand-muted">On this page</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {sections.map((section, index) => (
               <li key={`${section.title}-${index}`}>
                 <a
                   href={`#section-${index + 1}`}
-                  className="text-brand-primary/80 underline decoration-brand-line decoration-2 underline-offset-4 hover:text-brand-accent-strong hover:decoration-brand-accent"
+                  className="link-draw text-brand-primary/80 hover:text-brand-accent-strong"
                 >
                   {section.title || `Section ${index + 1}`}
                 </a>
@@ -74,7 +76,7 @@ export default async function PrivacyPage() {
             >
               <h2
                 id={`section-${index + 1}-heading`}
-                className="font-heading text-xl font-bold tracking-[-0.02em] text-brand-primary"
+                className="font-heading text-[1.25rem] font-extrabold tracking-[-0.03em] text-brand-primary"
               >
                 {section.title}
               </h2>
@@ -92,7 +94,7 @@ export default async function PrivacyPage() {
           <section aria-labelledby="privacy-contact-heading" className="border-t border-brand-line pt-6">
             <h2
               id="privacy-contact-heading"
-              className="font-heading text-xl font-bold tracking-[-0.02em] text-brand-primary"
+              className="font-heading text-[1.25rem] font-extrabold tracking-[-0.03em] text-brand-primary"
             >
               Questions or removal requests
             </h2>

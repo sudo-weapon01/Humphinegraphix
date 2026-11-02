@@ -22,7 +22,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="min-h-dvh bg-brand-paper">
       <a
         href="#admin-main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[2px] focus:bg-brand-primary focus:px-4 focus:py-2 focus:text-sm focus:text-brand-paper"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-none focus:bg-brand-primary focus:px-4 focus:py-2 focus:text-sm focus:text-brand-paper"
       >
         Skip to admin content
       </a>

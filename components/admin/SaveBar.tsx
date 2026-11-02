@@ -40,7 +40,7 @@ export function SaveBar({
       {message ? (
         <p
           role={message.tone === "error" ? "alert" : "status"}
-          className={`mt-2 rounded-[2px] px-3 py-2 text-[0.8rem] ${
+          className={`mt-2 rounded-none px-3 py-2 text-[0.8rem] ${
             message.tone === "error"
               ? "border border-[#b3261e]/30 bg-[#fbeceb] text-[#8c1d18]"
               : "border border-emerald-700/25 bg-emerald-50 text-emerald-900"

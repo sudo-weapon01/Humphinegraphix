@@ -26,11 +26,11 @@ export function WhatsAppButton({
 
   const styles: Record<typeof variant, string> = {
     solid:
-      "inline-flex items-center justify-center gap-2 rounded-[2px] bg-[#128c7e] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0f7a6d]",
+      "inline-flex items-center justify-center gap-2.5 rounded-none bg-[#128c7e] px-4 py-2.5 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#0f7a6d]",
     ghost:
-      "inline-flex items-center justify-center gap-2 rounded-[2px] border border-brand-paper/30 px-4 py-2.5 text-sm font-semibold text-brand-paper transition-colors hover:bg-brand-paper/10",
+      "inline-flex items-center justify-center gap-2.5 rounded-none border border-brand-paper/30 px-4 py-2.5 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-brand-paper transition-colors hover:bg-brand-paper hover:text-brand-primary",
     inline:
-      "inline-flex items-center gap-2 text-sm font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent-strong",
+      "inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.14em] text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent-strong",
   };
 
   return (

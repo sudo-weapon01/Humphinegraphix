@@ -25,13 +25,24 @@ export default async function AdminLoginPage({
   const credentials = getStaffCredentials();
 
   return (
-    <div className="grid min-h-dvh place-items-center bg-brand-primary px-5 py-16">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <p className="font-heading text-2xl font-extrabold tracking-[-0.035em] text-brand-paper">
-            Humphine<span className="text-brand-gold">graphix</span>
-          </p>
-          <p className="mt-1 text-[0.7rem] uppercase tracking-[0.18em] text-brand-paper/50">
+    <div className="relative grid min-h-dvh place-items-center bg-brand-primary px-5 py-16">
+      <p
+        aria-hidden="true"
+        className="display display-cond pointer-events-none absolute bottom-0 left-0 select-none text-[clamp(5rem,22vw,20rem)] leading-[0.7] text-brand-paper/[0.05]"
+      >
+        HG
+      </p>
+      <div className="relative w-full max-w-sm">
+        <div className="mb-8">
+          <div className="flex items-center gap-3">
+            <span aria-hidden="true" className="grid h-8 w-8 place-items-center bg-brand-accent font-heading text-[0.8rem] font-extrabold text-brand-primary">
+              HG
+            </span>
+            <p className="font-heading text-xl font-extrabold tracking-[-0.045em] text-brand-paper">
+              Humphine<span className="text-brand-accent">graphix</span>
+            </p>
+          </div>
+          <p className="mt-4 border-t border-brand-paper/20 pt-3 font-mono text-[0.58rem] uppercase tracking-[0.24em] text-brand-paper/50">
             Studio content admin
           </p>
         </div>

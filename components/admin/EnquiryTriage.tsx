@@ -56,7 +56,7 @@ export function EnquiryTriage({ id, status }: { id: string; status: EnquiryStatu
         value={current}
         disabled={busy}
         onChange={(event) => void change(event.target.value as EnquiryStatus)}
-        className={`rounded-[2px] border px-2 py-1.5 text-[0.75rem] font-semibold ${
+        className={`rounded-none border px-2 py-1.5 text-[0.75rem] font-semibold ${
           current === "new"
             ? "border-brand-accent/40 bg-brand-accent-soft text-brand-accent-strong"
             : current === "replied"

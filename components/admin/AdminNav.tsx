@@ -42,7 +42,7 @@ export function AdminNav({ user }: { user: string }) {
               key={link.href}
               href={link.href}
               aria-current={active ? "page" : undefined}
-              className={`rounded-[2px] px-3 py-1.5 text-[0.82rem] font-medium transition-colors ${
+              className={`rounded-none px-3 py-1.5 text-[0.82rem] font-medium transition-colors ${
                 active
                   ? "bg-brand-primary text-brand-paper"
                   : "text-brand-muted hover:bg-brand-paper-deep hover:text-brand-primary"
@@ -63,7 +63,7 @@ export function AdminNav({ user }: { user: string }) {
           type="button"
           onClick={() => void signOut()}
           disabled={signingOut}
-          className="rounded-[2px] border border-brand-line px-2.5 py-1.5 font-semibold text-brand-primary hover:bg-brand-paper-deep disabled:opacity-60"
+          className="rounded-none border border-brand-line px-2.5 py-1.5 font-semibold text-brand-primary hover:bg-brand-paper-deep disabled:opacity-60"
         >
           {signingOut ? "Signing out…" : "Sign out"}
         </button>

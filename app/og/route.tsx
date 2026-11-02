@@ -34,21 +34,36 @@ export async function GET(request: Request) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#10233f",
-          padding: "72px",
+          background: "#f3efe6",
+          padding: "64px",
           position: "relative",
           fontFamily: "sans-serif",
         }}
       >
+        {/* Grid rails + poster shapes, matching the site's editorial layout. */}
+        {[0.31, 0.62, 0.86].map((left) => (
+          <div
+            key={left}
+            style={{
+              position: "absolute",
+              left: `${left * 100}%`,
+              top: 0,
+              height: "100%",
+              width: "1px",
+              background: "#d8d1c2",
+              display: "flex",
+            }}
+          />
+        ))}
         <div
           style={{
             position: "absolute",
-            right: "-120px",
-            top: "-120px",
-            width: "460px",
-            height: "460px",
+            right: "-90px",
+            top: "-110px",
+            width: "420px",
+            height: "420px",
             borderRadius: "9999px",
-            background: "#b8481a",
+            border: "44px solid #ff3b00",
             opacity: 0.9,
             display: "flex",
           }}
@@ -56,47 +71,57 @@ export async function GET(request: Request) {
         <div
           style={{
             position: "absolute",
-            right: "120px",
-            bottom: "-160px",
-            width: "520px",
-            height: "520px",
-            background: "#1f8a8a",
-            opacity: 0.85,
-            transform: "rotate(14deg)",
+            left: "64px",
+            top: "150px",
+            width: "54px",
+            height: "6px",
+            background: "#131211",
             display: "flex",
           }}
         />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "18px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "18px", position: "relative" }}>
           <div
             style={{
-              width: "56px",
-              height: "56px",
-              background: "#f2c14e",
-              borderRadius: "14px",
+              width: "48px",
+              height: "48px",
+              background: "#ff3b00",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#10233f",
-              fontSize: "34px",
+              color: "#ffffff",
+              fontSize: "22px",
               fontWeight: 700,
             }}
           >
-            H
+            HG
           </div>
-          <div style={{ color: "#f7f3ea", fontSize: "30px", fontWeight: 700, letterSpacing: "-0.5px" }}>
-            {SITE_NAME}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ color: "#131211", fontSize: "30px", fontWeight: 700, letterSpacing: "-1.2px" }}>
+              {SITE_NAME}
+            </div>
+            <div
+              style={{
+                color: "#5c574e",
+                fontSize: "13px",
+                letterSpacing: "4px",
+                textTransform: "uppercase",
+                marginTop: "6px",
+              }}
+            >
+              Flyer design studio
+            </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: "820px" }}>
+        <div style={{ display: "flex", flexDirection: "column", maxWidth: "800px", position: "relative" }}>
           <div
             style={{
-              color: "#f7f3ea",
-              fontSize: title.length > 42 ? "66px" : "82px",
-              fontWeight: 700,
-              lineHeight: 1.05,
-              letterSpacing: "-1.5px",
+              color: "#131211",
+              fontSize: title.length > 42 ? "62px" : "78px",
+              fontWeight: 800,
+              lineHeight: 0.98,
+              letterSpacing: "-3px",
               display: "flex",
             }}
           >
@@ -104,10 +129,10 @@ export async function GET(request: Request) {
           </div>
           <div
             style={{
-              color: "#c8d3e3",
-              fontSize: "30px",
+              color: "#5c574e",
+              fontSize: "26px",
               lineHeight: 1.35,
-              marginTop: "24px",
+              marginTop: "22px",
               display: "flex",
             }}
           >
@@ -115,10 +140,32 @@ export async function GET(request: Request) {
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div style={{ width: "64px", height: "6px", background: "#f2c14e", display: "flex" }} />
-          <div style={{ color: "#8ea3bf", fontSize: "24px", display: "flex" }}>
-            Flyer design studio · Print-ready · Request a quote
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "relative",
+            borderTop: "1px solid #d3ccbc",
+            paddingTop: "20px",
+          }}
+        >
+          <div
+            style={{
+              color: "#131211",
+              fontSize: "13px",
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              display: "flex",
+            }}
+          >
+            Print-ready · Social crops · Quote on request
+          </div>
+          {/* Plain shapes only: any glyph outside the bundled font makes satori
+              fetch a fallback face over the network at request time. */}
+          <div style={{ display: "flex", gap: "10px" }}>
+            <div style={{ width: "16px", height: "16px", background: "#ff3b00", display: "flex" }} />
+            <div style={{ width: "16px", height: "16px", background: "#131211", display: "flex" }} />
           </div>
         </div>
       </div>

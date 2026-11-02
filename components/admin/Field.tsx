@@ -3,7 +3,7 @@
 import { useId, type ReactNode } from "react";
 
 const controlClass =
-  "w-full rounded-[2px] border border-brand-line bg-brand-surface px-3 py-2 text-sm text-brand-ink focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-accent/25";
+  "w-full rounded-none border border-brand-line bg-brand-surface px-3 py-2 text-sm text-brand-ink focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-accent/25";
 
 type FieldProps = {
   label: string;

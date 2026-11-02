@@ -50,15 +50,15 @@ export function LoginForm({ next, configured, developmentHint }: LoginFormProps)
   }
 
   const inputClass =
-    "mt-1.5 w-full rounded-[2px] border border-brand-paper/20 bg-brand-primary-soft px-3 py-2.5 text-sm text-brand-paper placeholder:text-brand-paper/35 focus:border-brand-gold focus:outline-none focus:ring-2 focus:ring-brand-gold/30";
+    "mt-1.5 w-full rounded-none border border-brand-paper/20 bg-brand-primary-soft px-3 py-2.5 text-sm text-brand-paper placeholder:text-brand-paper/35 focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent";
 
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-[3px] border border-brand-paper/15 bg-brand-primary-soft/40 p-6 shadow-lift backdrop-blur"
+      className="rounded-none border border-brand-paper/15 bg-brand-primary-soft/40 p-6 backdrop-blur"
     >
-      <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-paper">
+      <h1 className="font-heading text-lg font-extrabold tracking-[-0.04em] text-brand-paper">
         Staff sign in
       </h1>
       <p className="mt-1 text-[0.78rem] text-brand-paper/60">
@@ -68,7 +68,7 @@ export function LoginForm({ next, configured, developmentHint }: LoginFormProps)
       {!configured ? (
         <p
           role="alert"
-          className="mt-4 rounded-[2px] border border-brand-gold/40 bg-brand-gold/10 px-3 py-2 text-[0.78rem] text-brand-gold"
+          className="mt-4 rounded-none border border-brand-gold/40 bg-brand-gold/10 px-3 py-2 text-[0.78rem] text-brand-gold"
         >
           Sign-in is not configured on this deployment. Set ADMIN_USERNAME, ADMIN_PASSWORD, and
           ADMIN_SESSION_SECRET.
@@ -80,14 +80,14 @@ export function LoginForm({ next, configured, developmentHint }: LoginFormProps)
           ref={errorRef}
           tabIndex={-1}
           role="alert"
-          className="mt-4 rounded-[2px] border border-red-400/40 bg-red-500/10 px-3 py-2 text-[0.8rem] text-red-200"
+          className="mt-4 rounded-none border border-red-400/40 bg-red-500/10 px-3 py-2 text-[0.8rem] text-red-200"
         >
           {error}
         </p>
       ) : null}
 
       <div className="mt-5">
-        <label htmlFor={`${uid}-username`} className="block text-[0.75rem] font-semibold text-brand-paper/80">
+        <label htmlFor={`${uid}-username`} className="block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-brand-paper/60">
           Username
         </label>
         <input
@@ -103,7 +103,7 @@ export function LoginForm({ next, configured, developmentHint }: LoginFormProps)
       </div>
 
       <div className="mt-4">
-        <label htmlFor={`${uid}-password`} className="block text-[0.75rem] font-semibold text-brand-paper/80">
+        <label htmlFor={`${uid}-password`} className="block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-brand-paper/60">
           Password
         </label>
         <input

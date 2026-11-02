@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { PageHero } from "@/components/site/PageHero";
 import { Testimonials } from "@/components/site/Testimonials";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 import { getSiteContent } from "@/lib/content/public";
@@ -14,6 +15,15 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
 });
 
+function Detail({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="border-b border-brand-line py-4 last:border-0">
+      <dt className="font-mono text-[0.55rem] uppercase tracking-[0.2em] text-brand-muted">{label}</dt>
+      <dd className="mt-1.5 text-[0.92rem] leading-relaxed text-brand-primary/85">{children}</dd>
+    </div>
+  );
+}
+
 export default async function ContactPage() {
   const { pages, services } = await getSiteContent();
   const { contact } = pages;
@@ -21,117 +31,81 @@ export default async function ContactPage() {
 
   return (
     <>
-      <header className="border-b border-brand-line bg-brand-surface/60">
-        <div className="container-page py-14 md:py-20">
-          <p className="eyebrow">Contact</p>
-          <h1 className="mt-4 max-w-3xl font-heading text-[clamp(2.1rem,5.4vw,3.6rem)] font-extrabold leading-[1.0] tracking-[-0.04em] text-brand-primary">
-            {contact.title}
-          </h1>
-          <p className="mt-5 max-w-2xl text-[1rem] leading-relaxed text-brand-muted">
-            {contact.intro}
-          </p>
-        </div>
-      </header>
+      <PageHero index="05" label="Contact" title={contact.title} intro={contact.intro} />
 
-      <div className="container-page grid gap-10 py-14 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-        <aside id="studio-details" aria-label="Studio contact details" className="space-y-6 scroll-mt-24">
-          <div className="rounded-[3px] border border-brand-line bg-brand-paper-deep p-6 md:p-7">
-            <h2 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">
-              Studio details
-            </h2>
-            <dl className="mt-5 space-y-4 text-sm">
-              <div>
-                <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Email
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href={`mailto:${contact.email}`}
-                    className="font-medium text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent-strong"
-                  >
-                    {contact.email}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Phone
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href={`tel:${contact.phone.replace(/\s+/g, "")}`}
-                    className="font-medium text-brand-primary hover:text-brand-accent-strong"
-                  >
-                    {contact.phone}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Studio
-                </dt>
-                <dd className="mt-1 leading-relaxed text-brand-primary/85">{contact.address}</dd>
-              </div>
-              <div>
-                <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Hours
-                </dt>
-                <dd className="mt-1 text-brand-primary/85">{contact.hours}</dd>
-              </div>
-              <div>
-                <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Social
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href={contact.socialUrl}
-                    className="font-medium text-brand-primary hover:text-brand-accent-strong"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {contact.socialLabel}
-                  </a>
-                </dd>
-              </div>
+      <div className="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+        <aside id="studio-details" aria-label="Studio contact details" className="scroll-mt-24 space-y-8">
+          <div>
+            <h2 className="label text-brand-muted">Studio details</h2>
+            <dl className="mt-3 border-t border-brand-line">
+              <Detail label="Email">
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="link-draw font-medium text-brand-primary hover:text-brand-accent-strong"
+                >
+                  {contact.email}
+                </a>
+              </Detail>
+              <Detail label="Phone">
+                <a
+                  href={`tel:${contact.phone.replace(/\s+/g, "")}`}
+                  className="link-draw font-medium text-brand-primary hover:text-brand-accent-strong"
+                >
+                  {contact.phone}
+                </a>
+              </Detail>
+              <Detail label="Studio">{contact.address}</Detail>
+              <Detail label="Hours">{contact.hours}</Detail>
+              <Detail label="Social">
+                <a
+                  href={contact.socialUrl}
+                  className="link-draw font-medium text-brand-primary hover:text-brand-accent-strong"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {contact.socialLabel}
+                </a>
+              </Detail>
             </dl>
           </div>
 
-          <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
-            <h2 className="font-heading text-base font-bold tracking-[-0.02em] text-brand-primary">
+          <div className="border border-brand-line bg-brand-surface p-5">
+            <h2 className="font-heading text-[1.02rem] font-extrabold tracking-[-0.02em] text-brand-primary">
               Prefer to chat?
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-brand-muted">
+            <p className="mt-2 text-[0.85rem] leading-relaxed text-brand-muted">
               Send a message on WhatsApp with your date and what the flyer is for — the studio replies
               during working hours.
             </p>
             <div className="mt-4">
-              <WhatsAppButton source="contact-sidebar" label="Message on WhatsApp" />
+              <WhatsAppButton source="contact-sidebar" label="Message on WhatsApp" variant="inline" />
             </div>
           </div>
 
-          <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
-            <h2 className="font-heading text-base font-bold tracking-[-0.02em] text-brand-primary">
-              What happens next
-            </h2>
-            <ol className="mt-4 space-y-3 text-sm text-brand-muted">
+          <div>
+            <h2 className="label text-brand-muted">What happens next</h2>
+            <ol className="mt-3 border-t border-brand-line">
               {[
                 "We read your brief and check the deadline.",
                 "You get a reply with a fixed quote and delivery date.",
                 "You approve, we design, you get print-ready files.",
               ].map((step, index) => (
-                <li key={step} className="flex gap-3">
-                  <span className="font-heading text-xs font-bold tabular-nums text-brand-accent-strong">
+                <li key={step} className="flex gap-4 border-b border-brand-line py-3">
+                  <span aria-hidden="true" className="index text-brand-accent-strong">
                     0{index + 1}
                   </span>
-                  <span className="leading-relaxed">{step}</span>
+                  <span className="text-[0.85rem] leading-relaxed text-brand-primary/80">{step}</span>
                 </li>
               ))}
             </ol>
-            <p className="mt-5 border-t border-brand-line pt-4 text-[0.78rem] leading-relaxed text-brand-muted">
+            <p className="mt-5 text-[0.78rem] leading-relaxed text-brand-muted">
               This site collects quote requests only. There is no pricing table, no cart, and no
-              online payment — your quote comes by email. We use the details you send to prepare
-              that quote, as described in our{" "}
-              <Link href="/privacy" className="font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4">
+              online payment — your quote comes by email. We use the details you send to prepare that
+              quote, as described in our{" "}
+              <Link
+                href="/privacy"
+                className="font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4"
+              >
                 privacy notice
               </Link>
               .

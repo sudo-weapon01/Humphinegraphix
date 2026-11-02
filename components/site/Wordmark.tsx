@@ -7,8 +7,9 @@ type WordmarkProps = {
 };
 
 /**
- * The brand name is intentionally spelled out in full wherever the logo would
- * normally sit, so "Humphinegraphix" is the loudest word on every page.
+ * The brand name is spelled out in full wherever a logo would normally sit, so
+ * "Humphinegraphix" stays the loudest word on every page. The mark is a squared
+ * stamp — no rounding — with the name set tight against it.
  */
 export function Wordmark({ tone = "dark", className = "" }: WordmarkProps) {
   const text = tone === "light" ? "text-brand-paper" : "text-brand-primary";
@@ -17,17 +18,26 @@ export function Wordmark({ tone = "dark", className = "" }: WordmarkProps) {
   return (
     <Link
       href="/"
-      className={`group inline-flex items-center gap-2.5 ${text} ${className}`}
+      className={`group inline-flex items-center gap-3 ${text} ${className}`}
       aria-label={`${SITE_NAME} — home`}
     >
       <span
         aria-hidden="true"
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-[2px] bg-brand-accent font-heading text-[0.95rem] font-extrabold tracking-tight text-white transition-transform duration-300 group-hover:-rotate-3"
+        className="grid h-8 w-8 shrink-0 place-items-center bg-brand-accent font-heading text-[0.8rem] font-extrabold tracking-tight text-brand-primary transition-transform duration-300 group-hover:-rotate-6"
       >
         HG
       </span>
-      <span className="font-heading text-[1.05rem] font-extrabold leading-none tracking-[-0.03em] sm:text-[1.15rem]">
-        Humphine<span className={accent}>graphix</span>
+      <span className="flex flex-col leading-none">
+        <span className="font-heading text-[1.02rem] font-extrabold tracking-[-0.045em] sm:text-[1.15rem]">
+          Humphine<span className={accent}>graphix</span>
+        </span>
+        <span
+          className={`mt-1 font-mono text-[0.5rem] uppercase tracking-[0.24em] ${
+            tone === "light" ? "text-brand-paper/70" : "text-brand-muted"
+          }`}
+        >
+          Flyer design studio
+        </span>
       </span>
     </Link>
   );
