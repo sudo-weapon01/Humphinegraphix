@@ -304,3 +304,20 @@ describe("session cookie name", () => {
     expect(SESSION_COOKIE).toBe("hg_staff_session");
   });
 });
+
+describe("social card renderer", () => {
+  it("returns a 1200x630 PNG and reports a successful render", async () => {
+    const { GET } = await import("@/app/og/route");
+
+    const health = await GET(
+      new Request("http://localhost/og?format=json&title=Smoke%20test&subtitle=Checking%20the%20card"),
+    );
+    expect(health.status).toBe(200);
+    const payload = (await health.json()) as { ok: boolean; width: number; height: number };
+    expect(payload).toMatchObject({ ok: true, width: 1200, height: 630 });
+
+    const image = await GET(new Request("http://localhost/og?title=Smoke%20test"));
+    expect(image.headers.get("content-type")).toContain("image/png");
+    expect((await image.arrayBuffer()).byteLength).toBeGreaterThan(1000);
+  });
+});
