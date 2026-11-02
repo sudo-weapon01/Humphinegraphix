@@ -4,22 +4,47 @@ import { getPublishedBundle } from "@/lib/content/store";
 import { flyerTypeOptions } from "@/lib/content/types";
 import { saveQuoteRequest } from "@/lib/enquiries";
 import { validateQuoteInput } from "@/lib/quote";
+import { checkRateLimit, clientIpFrom, rateLimitMessage } from "@/lib/ratelimit";
+import { verifyTurnstileToken } from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
  * Public quote request endpoint.
- * Validates server-side with the same rules the form uses, then stores the lead.
+ *
+ * Defence in depth: same-origin check, per-IP rate limit, optional Turnstile,
+ * honeypot, then server-side validation with the same rules the form uses.
  */
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
     return jsonError("Cross-origin requests are not allowed.", 403);
   }
 
+  const ip = clientIpFrom(request);
+  const limit = await checkRateLimit("quote", `ip:${ip}`);
+  if (!limit.allowed) {
+    return jsonError(
+      rateLimitMessage(limit.retryAfterSeconds) +
+        " If you need to add details, reply to the email we sent.",
+      429,
+    );
+  }
+
   const body = await readJson(request);
   if (!body) {
     return jsonError("We couldn't read that request. Please try again.", 400);
+  }
+
+  const spamToken =
+    typeof (body as { turnstileToken?: unknown }).turnstileToken === "string"
+      ? ((body as { turnstileToken: string }).turnstileToken)
+      : undefined;
+  const spamCheck = await verifyTurnstileToken(spamToken, ip);
+  if (!spamCheck.ok) {
+    return jsonError(spamCheck.reason ?? "The spam check did not pass.", 403, {
+      turnstile: spamCheck.reason ?? "Please complete the spam check.",
+    });
   }
 
   // Flyer types are validated against the published Services page content.

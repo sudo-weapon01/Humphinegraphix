@@ -9,7 +9,10 @@ import {
   validateQuoteInput,
   type QuoteInput,
 } from "@/lib/quote";
+import { ANALYTICS_EVENTS, track } from "@/lib/analytics";
+import { TURNSTILE_SITE_KEY } from "@/lib/turnstile-config";
 import { todayIso } from "@/lib/validation";
+import { TurnstileWidget } from "./TurnstileWidget";
 import type { SitePages } from "@/lib/content/types";
 
 type QuoteFormProps = {
@@ -35,12 +38,20 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [spamToken, setSpamToken] = useState<string | null>(null);
+  const [turnstileReset, setTurnstileReset] = useState(0);
+  const startedRef = useRef(false);
   const summaryRef = useRef<HTMLDivElement>(null);
 
   const typeOptions = [...flyerTypes, UNSURE_FLYER_TYPE];
   const today = todayIso();
 
   function update<K extends keyof QuoteInput>(key: K, value: string) {
+    // First keystroke in a real field marks the start of a funnel step.
+    if (!startedRef.current && key !== "company") {
+      startedRef.current = true;
+      track(ANALYTICS_EVENTS.quoteStarted);
+    }
     setValues((current) => ({ ...current, [key]: value }));
     setErrors((current) => {
       if (!current[key]) return current;
@@ -68,12 +79,13 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
     setStatus("submitting");
     setErrors({});
+    track(ANALYTICS_EVENTS.quoteSubmitted);
 
     try {
       const response = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, turnstileToken: spamToken ?? undefined }),
       });
 
       const payload = (await response.json().catch(() => null)) as
@@ -86,16 +98,21 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
           payload?.message ??
             "We couldn't send your request just now. Please try again, or email us directly.",
         );
+        track(ANALYTICS_EVENTS.quoteFailed, { status: response.status });
+        setTurnstileReset((value) => value + 1);
         setStatus("idle");
         return;
       }
 
+      track(ANALYTICS_EVENTS.quoteSucceeded);
       setStatus("success");
       setValues(EMPTY_QUOTE);
     } catch {
       setSubmitError(
         "We couldn't reach the studio — check your connection and try again, or email us directly.",
       );
+      track(ANALYTICS_EVENTS.quoteFailed, { status: 0 });
+      setTurnstileReset((value) => value + 1);
       setStatus("idle");
     }
   }
@@ -376,6 +393,14 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
             onChange={(event) => update("company", event.target.value)}
           />
         </div>
+      </div>
+
+      <div className="mt-5">
+        <TurnstileWidget
+          siteKey={TURNSTILE_SITE_KEY}
+          onToken={setSpamToken}
+          resetSignal={turnstileReset}
+        />
       </div>
 
       <div className="mt-7 flex flex-wrap items-center gap-4">

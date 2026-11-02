@@ -7,8 +7,10 @@ design studio. Built with Next.js (App Router), React, TypeScript, and Tailwind 
   visitors request a quote, there is no pricing table, cart, checkout, or payment
   anywhere in the project.
 - **Admin area** — protected content editing for portfolio items, services, page
-  copy, and a read-only inbox of quote requests. Edits save as drafts and only reach
-  the live site when staff press **Publish**. No redeploy required.
+  copy, testimonials, FAQ, and the privacy notice, plus a quote-request inbox with
+  triage statuses and CSV export. Edits save as drafts and only reach the live site
+  when staff press **Publish**. No redeploy required, and any publish can be rolled
+  back from the publish history.
 - **Content store** — Supabase when configured, with a zero-setup local JSON store
   for development and previews.
 
@@ -37,7 +39,7 @@ login is available on the sign-in screen (`studio` / `humphine-demo`). It is
 | `npm run dev` | Development server (Turbopack off by default). |
 | `npm run build` | Production build. |
 | `npm start` | Serve the production build. |
-| `npm test` | Run the Vitest suite (70 tests). |
+| `npm test` | Run the Vitest suite (102 tests). |
 | `npm run test:watch` | Watch mode. |
 | `npm run typecheck` | `tsc --noEmit`. |
 
@@ -55,6 +57,9 @@ Copy `.env.example` to `.env.local` and fill in what you need.
 | `SUPABASE_URL` | Production (recommended) | Project URL, e.g. `https://xyz.supabase.co`. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Production (recommended) | Service-role key — **server-side only**. |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical URL used for metadata and the sitemap. |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Optional | Click-to-chat number, digits only. All WhatsApp buttons hide when blank. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Optional | Cloudflare Turnstile site key for the quote form. |
+| `TURNSTILE_SECRET_KEY` | Optional | Turnstile secret key, verified server-side. |
 
 > `PLACEHOLDER_ADMIN_CREDENTIALS`: the values in `.env.example` are placeholders.
 > Set real ones before deploying. Sign-in is refused entirely in production when
@@ -74,6 +79,16 @@ Copy `.env.example` to `.env.local` and fill in what you need.
 
 Sessions are HMAC-signed (`lib/session.ts`) and stored in an `httpOnly`,
 `SameSite=Lax` cookie. Changing `ADMIN_SESSION_SECRET` invalidates all sessions.
+
+**Rotating the admin password** (do this after any shared demo or handover):
+
+1. Generate a new one: `openssl rand -base64 18`.
+2. Update `ADMIN_PASSWORD` in your host (Vercel → Settings → Environment Variables)
+   and in `.env.local` locally.
+3. Redeploy / restart so the new value is picked up (environment changes apply to
+   new deployments, not existing ones).
+4. Sign in with the new password. Old sessions stay valid until they expire (8h) or
+   until you also change `ADMIN_SESSION_SECRET`.
 
 ---
 
@@ -119,8 +134,44 @@ content: without it, edits live in the ephemeral filesystem of the deployment.
 
 `POST /api/quote` validates input on the server with the same rules the form uses,
 then stores the lead in `quote_requests` (Supabase) or `.data/enquiries.json`.
-They appear read-only under **Admin → Enquiries**. Nothing here charges, orders, or
-takes payment; the studio replies by email.
+They appear under **Admin → Enquiries**, where staff can set a status
+(**New → Replied → Archived**) and export everything as CSV. Nothing here charges,
+orders, or takes payment; the studio replies by email.
+
+Spam protection is layered, and each layer is independent:
+
+1. **Honeypot** field — bots fill it, humans never see it.
+2. **Rate limit** — 6 requests per hour per client IP (`RATE_LIMITS` in
+   `lib/ratelimit.ts`). Stored in the `rate_limit_hits` table so it holds across
+   serverless instances; falls back to per-process counters locally.
+3. **Turnstile** (optional) — enabled by setting both Turnstile keys. Without them
+   the check is skipped so local development works unchanged.
+
+Staff sign-in is rate limited too: 5 attempts per 15 minutes per IP, then a 429 with
+a retry hint. A successful sign-in clears the counter.
+
+### Publish history and rollback
+
+Every publish snapshots the published bundle into `content_history` (or
+`.data/history.json`, newest 20 kept). **Publish history & rollback** in the admin
+header lists them, and restoring one copies that snapshot back into the published
+slot and revalidates the site — the same path a normal publish takes.
+
+### Draft preview
+
+**Admin → Preview drafts** renders the draft bundle exactly as it will appear after
+publishing, with a badge listing which documents are unpublished. It sits behind the
+staff session rather than behind a `?preview=1` query flag: a query flag would let
+anyone read unpublished content, and keeping previews in the admin area means the
+public pages stay static and cacheable.
+
+### Image uploads
+
+**Admin → Portfolio → Upload a new image** posts to `/api/admin/upload`, which
+accepts JPEG/PNG/WebP up to 5 MB and stores the file in the public `portfolio`
+Storage bucket (or `public/uploads/` when Supabase is not configured). The returned
+URL is written into the content document like any other image URL, so publishing and
+rollback work unchanged.
 
 ---
 
@@ -136,6 +187,8 @@ app/
     portfolio/page.tsx       Portfolio
     about/page.tsx           About
     contact/page.tsx         Contact + quote form
+    privacy/page.tsx         Privacy notice (content-driven)
+  og/route.tsx               Generated 1200x630 social cards
   admin/
     login/page.tsx           Staff sign-in (public)
     (studio)/                Authenticated admin area
@@ -144,23 +197,26 @@ app/
       portfolio/page.tsx     Portfolio CRUD
       services/page.tsx      Services CRUD + flyer types
       pages/page.tsx         Page copy editor
-      enquiries/page.tsx     Read-only leads
+      enquiries/page.tsx     Lead inbox (triage + CSV export)
+      preview/page.tsx       Draft preview
   api/
     quote/route.ts           Public quote endpoint
-    admin/{login,logout,content,publish,discard}/route.ts
+    admin/{login,logout,content,publish,discard,rollback,upload,enquiries}/route.ts
   sitemap.ts robots.ts not-found.tsx icon.svg
 components/
-  site/                      Header, footer, cards, CTA, headings
+  site/                      Header, footer, cards, CTA, gallery, FAQ, testimonials,
+                             WhatsApp button, sticky mobile bar, JSON-LD
   forms/QuoteForm.tsx        Client form (validation, states, errors)
   admin/                     Editors, save bar, publish bar, fields
   ui/Button.tsx              Shared button styles
 lib/
   content/                   Types, defaults, validation, store, cached reader, path helpers
   auth.ts auth-config.ts session.ts api.ts
-  quote.ts validation.ts enquiries.ts supabase.ts site.ts
+  quote.ts validation.ts enquiries.ts supabase.ts site.ts seo.ts
+  ratelimit.ts turnstile.ts turnstile-config.ts uploads.ts analytics.ts
 middleware.ts                Admin route gate
 supabase/schema.sql          Database schema
-tests/                       70 Vitest tests
+tests/                       102 Vitest tests
 ```
 
 ---
@@ -168,7 +224,9 @@ tests/                       70 Vitest tests
 ## Tests
 
 ```bash
-npm test
+npm test           # 102 tests
+npm run typecheck  # tsc --noEmit
+npm run build      # production build
 ```
 
 | File | Covers |
@@ -179,6 +237,8 @@ npm test
 | `tests/admin-api.test.ts` | Admin endpoints refuse unauthenticated calls; drafts stay private; publish makes content public and revalidates; quote endpoint stores valid leads and rejects invalid ones. |
 | `tests/content-store.test.ts` | Draft/publish/discard/reset semantics, unknown-field rejection, flyer types flowing to the quote form. |
 | `tests/pages.test.tsx` | Key page rendering driven by published content, contact form options, no pricing on Services. |
+| `tests/hardening.test.ts` | Rate limiting (allow/block/reset), upload validation, enquiry triage + CSV escaping and formula injection, publish history and rollback, optional Turnstile, security headers. |
+| `tests/a11y.test.tsx` | axe-core audit of the home, services, portfolio, privacy and contact pages, the quote form, and the form's error state. |
 
 ---
 
@@ -211,7 +271,8 @@ This repository is connected to the Vercel project **humphinegraphix**
 | Framework preset | `nextjs` (also pinned in `vercel.json`) |
 | Public URL | `https://humphinegraphix.vercel.app` |
 | Environment variables | `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SITE_URL` (Production, Preview, Development) |
-| Content store | Supabase project `bnlaxnagdhgkwushorxa` — `content_docs` (seeded) + `quote_requests` |
+| Content store | Supabase project `bnlaxnagdhgkwushorxa` — `content_docs` (seeded), `quote_requests` (+ `status`), `content_history`, `rate_limit_hits`, `portfolio` Storage bucket |
+| Analytics | Vercel Web Analytics — enable it in the project dashboard |
 
 > **If every URL returns Vercel's own 404 ("This page doesn't exist"),** check
 > that the project's framework preset is set to **Next.js**
@@ -242,6 +303,53 @@ Run it behind HTTPS — the session cookie is `secure` in production.
 
 ---
 
+## Search, social, and analytics
+
+- **Metadata** — `lib/seo.ts` gives every page a canonical URL, Open Graph, and
+  Twitter card. Social cards come from `app/og/route.tsx`, which renders a
+  correctly sized **1200×630** image per page with that page's headline.
+- **Structured data** — `components/site/JsonLd.tsx` emits schema.org
+  `ProfessionalService` (name, email, phone, address, area served, services).
+  It intentionally omits `priceRange` and offers: the site publishes no prices.
+- **Sitemap / robots** — `app/sitemap.ts` and `app/robots.ts`; `/admin` and `/api`
+  are disallowed and admin pages send `noindex`.
+- **Analytics** — Vercel Web Analytics is loaded from Vercel's own first-party
+  script (`components/site/VercelAnalytics.tsx`) rather than the npm package, so no
+  extra dependency or peer-version risk. `lib/analytics.ts` records the quote funnel
+  (`quote_form_started` → `quote_form_submitted` → `quote_form_succeeded` /
+  `quote_form_failed`), WhatsApp clicks, and portfolio opens. Every call is a no-op
+  outside Vercel, so local development and tests stay clean.
+  **Turn it on** in Vercel: Project → Analytics → Enable.
+
+## Security headers
+
+`next.config.ts` sets, on every response:
+
+| Header | Value |
+| --- | --- |
+| `Content-Security-Policy` | `default-src 'self'`; inline scripts/styles allowed (Next.js needs them); Turnstile and Supabase are the only third parties; `object-src 'none'`, `base-uri 'self'`, `frame-ancestors 'self'` |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` |
+| `X-Frame-Options` | `SAMEORIGIN` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | camera, microphone, geolocation, payment all off |
+
+If you add a new third party (fonts hosted elsewhere, an embed, a video), add its
+origin to the matching directive in `next.config.ts` or it will be blocked.
+
+## Accessibility
+
+- Semantic landmarks, one `h1` per page, and a valid heading order (checked by axe).
+- Every field has a `<label>`; errors are linked with `aria-describedby` and marked
+  `aria-invalid`; the error summary is focusable and announced.
+- The portfolio lightbox is a real dialog: focus moves into it, Tab is trapped,
+  Escape closes it, and focus returns to the card that opened it. Arrow keys move
+  between flyers.
+- The mobile menu closes on Escape and on navigation.
+- `prefers-reduced-motion` disables transitions, smooth scrolling, and the spinner.
+- `tests/a11y.test.tsx` runs axe-core over the main pages and the quote form as part
+  of the normal test run.
+
 ## Replacing the placeholders
 
 Everything the studio still needs to supply is marked in the code and listed here.
@@ -254,6 +362,11 @@ Search the repo for `PLACEHOLDER_` and `TODO` to find them.
 | Email, phone, address, hours, social link | Admin → Page copy → Contact page & details (seed values in `lib/content/defaults.ts`) |
 | Portfolio images and copy | Admin → Portfolio; seed data in `lib/content/defaults.ts`, images in `public/images/portfolio/` |
 | Budget ranges and currency (`PLACEHOLDER_BUDGET_RANGES`) | `lib/quote.ts` |
+| Testimonials (`PLACEHOLDER: client name`) | Admin → Page copy → Testimonials (seed values in `lib/content/defaults.ts`) |
+| FAQ answers | Admin → Page copy → FAQ |
+| Privacy notice wording | Admin → Page copy → Privacy notice (review it before launch) |
+| WhatsApp number (`PLACEHOLDER_WHATSAPP_NUMBER`) | `NEXT_PUBLIC_WHATSAPP_NUMBER` — buttons hide while it is blank |
+| Turnstile keys | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` |
 | Admin credentials | `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` |
 | Site URL (`PLACEHOLDER_SITE_URL`) | `NEXT_PUBLIC_SITE_URL` |
 | Studio facts, process copy, audience cards | `lib/site.ts` |

@@ -1,3 +1,4 @@
+import { EnquiryTriage } from "@/components/admin/EnquiryTriage";
 import { listQuoteRequests } from "@/lib/enquiries";
 
 export const dynamic = "force-dynamic";
@@ -24,9 +25,16 @@ export default async function AdminEnquiriesPage() {
           Quote requests
         </h1>
         <p className="mt-2 max-w-2xl text-[0.88rem] leading-relaxed text-brand-muted">
-          Read-only list of requests from the contact form. Reply to the sender by email and quote
-          them directly — nothing here takes payment or creates an order.
+          Requests from the contact form. Reply to the sender by email and quote them directly — set
+          a status to keep track of what you have answered. Nothing here takes payment or creates an
+          order.
         </p>
+        <a
+          href="/api/admin/enquiries?format=csv"
+          className="mt-4 inline-flex items-center gap-2 rounded-[2px] border border-brand-line bg-brand-surface px-3 py-2 text-[0.78rem] font-semibold text-brand-primary hover:border-brand-primary"
+        >
+          <span aria-hidden="true">↓</span> Export all as CSV
+        </a>
       </header>
 
       {enquiries.length === 0 ? (
@@ -35,11 +43,12 @@ export default async function AdminEnquiriesPage() {
         </p>
       ) : (
         <div className="overflow-x-auto rounded-[3px] border border-brand-line bg-brand-surface">
-          <table className="w-full min-w-[54rem] border-collapse text-left text-[0.82rem]">
+          <table className="w-full min-w-[60rem] border-collapse text-left text-[0.82rem]">
             <caption className="sr-only">Quote requests, newest first</caption>
             <thead>
               <tr className="border-b border-brand-line bg-brand-paper-deep/60 text-[0.7rem] uppercase tracking-[0.1em] text-brand-muted">
                 <th scope="col" className="px-4 py-3 font-semibold">Received</th>
+                <th scope="col" className="px-4 py-3 font-semibold">Status</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Contact</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Flyer</th>
                 <th scope="col" className="px-4 py-3 font-semibold">Dates</th>
@@ -52,6 +61,9 @@ export default async function AdminEnquiriesPage() {
                 <tr key={enquiry.id} className="border-b border-brand-line/70 last:border-0 align-top">
                   <td className="whitespace-nowrap px-4 py-3 text-brand-muted">
                     {formatDate(enquiry.submittedAt)}
+                  </td>
+                  <td className="px-4 py-3">
+                    <EnquiryTriage id={enquiry.id} status={enquiry.status} />
                   </td>
                   <td className="px-4 py-3">
                     <p className="font-semibold text-brand-primary">{enquiry.name}</p>

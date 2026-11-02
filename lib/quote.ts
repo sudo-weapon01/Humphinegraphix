@@ -54,7 +54,16 @@ export type QuoteRequest = {
   deadline: string | null;
   message: string;
   submittedAt: string;
+  /** Triage state, managed in the admin area. */
+  status: EnquiryStatus;
 };
+
+export const ENQUIRY_STATUSES = ["new", "replied", "archived"] as const;
+export type EnquiryStatus = (typeof ENQUIRY_STATUSES)[number];
+
+export function isEnquiryStatus(value: unknown): value is EnquiryStatus {
+  return typeof value === "string" && (ENQUIRY_STATUSES as readonly string[]).includes(value);
+}
 
 export const EMPTY_QUOTE: QuoteInput = {
   name: "",
@@ -147,6 +156,7 @@ export function validateQuoteInput(
       deadline: deadline || null,
       message,
       submittedAt: now.toISOString(),
+      status: "new",
     },
   };
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV_LINKS, QUOTE_URL } from "@/lib/site";
+import { WhatsAppButton } from "./WhatsAppButton";
 import { Wordmark } from "./Wordmark";
 
 export function SiteHeader() {
@@ -14,6 +15,16 @@ export function SiteHeader() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Escape closes the mobile panel, as users expect from a disclosure menu.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-brand-line/80 bg-brand-paper/90 backdrop-blur-md">
@@ -55,6 +66,12 @@ export function SiteHeader() {
             <span aria-hidden="true">→</span>
           </Link>
 
+          <WhatsAppButton
+            source="header"
+            label="WhatsApp"
+            className="hidden rounded-[2px] border border-brand-line px-3 py-2.5 text-xs text-brand-primary hover:border-brand-primary md:inline-flex lg:text-sm"
+          />
+
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -92,6 +109,11 @@ export function SiteHeader() {
             >
               Request a quote <span aria-hidden="true">→</span>
             </Link>
+            <WhatsAppButton
+              source="mobile-menu"
+              label="Chat on WhatsApp"
+              className="mb-3 rounded-[2px] bg-[#128c7e] px-4 py-3 text-center text-sm font-semibold text-white hover:bg-[#0f7a6d]"
+            />
           </nav>
         </div>
       ) : null}

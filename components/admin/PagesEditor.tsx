@@ -13,12 +13,18 @@ const SECTION_LABELS: Record<keyof SitePages, string> = {
   portfolio: "Portfolio page",
   about: "About page",
   contact: "Contact page & details",
+  privacy: "Privacy notice",
+  testimonials: "Client testimonials",
+  faq: "FAQ",
   footer: "Footer",
 };
 
 const SECTION_HINTS: Partial<Record<keyof SitePages, string>> = {
   contact: "Email, phone, and address are placeholder values until the studio supplies the real ones.",
   home: "The hero headline and call-to-action labels for the front page.",
+  testimonials: "Shown on the home page. Replace the placeholder client names with real, permitted quotes.",
+  faq: "Shown on the Services and Contact pages. Keep answers honest about turnaround and what is included.",
+  privacy: "A plain-language notice. Have it checked against Ghana's Data Protection Act before launch.",
 };
 
 export function PagesEditor({ initial }: { initial: SitePages }) {

@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   if ("response" in guard) return guard.response;
 
   try {
-    const { publishedAt } = await publishAllDrafts();
+    const { publishedAt } = await publishAllDrafts(guard.session.sub);
     revalidateTag(CONTENT_TAG);
     revalidatePath("/", "layout");
 

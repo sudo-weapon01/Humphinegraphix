@@ -3,13 +3,14 @@ import Image from "next/image";
 import { getSiteContent } from "@/lib/content/public";
 import { CtaBand } from "@/components/site/CtaBand";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
     "Humphinegraphix is an independent flyer design studio. The flyer is often the first thing a customer sees — we design it like it matters.",
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 
 export default async function AboutPage() {
   const { pages } = await getSiteContent();

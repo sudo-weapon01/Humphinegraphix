@@ -6,6 +6,7 @@ import { defaultBundle, defaultPages } from "@/lib/content/defaults";
 import { getPublishedBundle, saveDraftDoc } from "@/lib/content/store";
 import { getSessionSecret } from "@/lib/auth-config";
 import { SESSION_COOKIE, createSessionToken } from "@/lib/session";
+import { resetRateLimit } from "@/lib/ratelimit";
 
 /**
  * Route-handler tests for the admin API. `next/headers` is mocked with a small
@@ -41,6 +42,10 @@ beforeEach(async () => {
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "hg-api-"));
   process.env.CONTENT_STORE_DIR = tempDir;
   sessionToken = undefined;
+  // Requests from tests share one client identifier; clear the counters so the
+  // login and quote limits never leak between cases.
+  await resetRateLimit("login", "ip:unknown");
+  await resetRateLimit("quote", "ip:unknown");
   revalidateTag.mockReset();
   revalidatePath.mockReset();
 });
@@ -114,6 +119,27 @@ describe("admin sign-in", () => {
   it("requires both fields", async () => {
     const response = await login(jsonRequest("/api/admin/login", "POST", {}));
     expect(response.status).toBe(400);
+  });
+
+  it("locks out repeated failed attempts for the same client", async () => {
+    const attempts: number[] = [];
+    for (let attempt = 0; attempt < 7; attempt += 1) {
+      const response = await login(
+        jsonRequest("/api/admin/login", "POST", { username: "studio", password: "nope" }),
+      );
+      attempts.push(response.status);
+    }
+
+    // RATE_LIMITS.login allows 5 attempts per 15 minutes, then answers 429.
+    expect(attempts.slice(0, 5).every((status) => status === 401)).toBe(true);
+    expect(attempts[5]).toBe(429);
+
+    // Even the correct password is refused while the lockout is active.
+    const blocked = await login(
+      jsonRequest("/api/admin/login", "POST", { username: "studio", password: "test-password" }),
+    );
+    expect(blocked.status).toBe(429);
+    expect(await blocked.json()).toMatchObject({ message: expect.stringMatching(/too many/i) });
   });
 
   it("blocks cross-origin sign-in attempts", async () => {
@@ -230,6 +256,18 @@ describe("public quote endpoint", () => {
     expect(response.status).toBe(422);
     const payload = await response.json();
     expect(payload.errors.flyerType).toBeTruthy();
+  });
+
+  it("rate-limits the quote form per client IP", async () => {
+    const limited: number[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const response = await quote(jsonRequest("/api/quote", "POST", validQuote));
+      limited.push(response.status);
+    }
+
+    // RATE_LIMITS.quote allows 6 per hour, then answers 429.
+    expect(limited.filter((status) => status === 201)).toHaveLength(6);
+    expect(limited[limited.length - 1]).toBe(429);
   });
 
   it("quietly absorbs honeypot submissions", async () => {
