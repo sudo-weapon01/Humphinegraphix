@@ -31,18 +31,18 @@ export default async function AdminEnquiriesPage() {
         </p>
         <a
           href="/api/admin/enquiries?format=csv"
-          className="mt-4 inline-flex items-center gap-2 rounded-[2px] border border-brand-line bg-brand-surface px-3 py-2 text-[0.78rem] font-semibold text-brand-primary hover:border-brand-primary"
+          className="mt-4 inline-flex items-center gap-2 rounded-none border border-brand-line bg-brand-surface px-3 py-2 text-[0.78rem] font-semibold text-brand-primary hover:border-brand-primary"
         >
           <span aria-hidden="true">↓</span> Export all as CSV
         </a>
       </header>
 
       {enquiries.length === 0 ? (
-        <p className="rounded-[3px] border border-dashed border-brand-line bg-brand-surface p-8 text-center text-sm text-brand-muted">
+        <p className="rounded-none border border-dashed border-brand-line bg-brand-surface p-8 text-center text-sm text-brand-muted">
           No quote requests yet.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-[3px] border border-brand-line bg-brand-surface">
+        <div className="overflow-x-auto rounded-none border border-brand-line bg-brand-surface">
           <table className="w-full min-w-[60rem] border-collapse text-left text-[0.82rem]">
             <caption className="sr-only">Quote requests, newest first</caption>
             <thead>

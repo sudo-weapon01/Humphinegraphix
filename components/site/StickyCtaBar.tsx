@@ -30,10 +30,10 @@ export function StickyCtaBar() {
       // Hidden from assistive tech until it is actually usable.
       aria-hidden={!visible}
     >
-      <div className="flex items-center gap-2 rounded-[3px] border border-brand-line bg-brand-paper/95 p-2 shadow-[0_10px_30px_-12px_rgba(16,35,63,0.45)] backdrop-blur">
+      <div className="flex items-center gap-2 border border-brand-primary bg-brand-paper/95 p-2 shadow-[0_10px_30px_-12px_rgba(19,18,17,0.55)] backdrop-blur">
         <Link
           href={QUOTE_URL}
-          className="flex-1 rounded-[2px] bg-brand-primary px-4 py-3 text-center text-sm font-semibold text-brand-paper"
+          className="flex-1 bg-brand-primary px-4 py-3 text-center font-mono text-[0.68rem] uppercase tracking-[0.16em] text-brand-paper"
           tabIndex={visible ? 0 : -1}
         >
           Request a quote
@@ -43,7 +43,7 @@ export function StickyCtaBar() {
             href={whatsappUrl() ?? undefined}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-[2px] bg-[#128c7e] px-4 py-3 text-sm font-semibold text-white"
+            className="bg-[#128c7e] px-4 py-3 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-white"
             tabIndex={visible ? 0 : -1}
           >
             WhatsApp
@@ -51,7 +51,7 @@ export function StickyCtaBar() {
         ) : (
           <a
             href="#studio-details"
-            className="rounded-[2px] border border-brand-line px-4 py-3 text-sm font-semibold text-brand-primary"
+            className="border border-brand-line px-4 py-3 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-brand-primary"
             tabIndex={visible ? 0 : -1}
           >
             Contact

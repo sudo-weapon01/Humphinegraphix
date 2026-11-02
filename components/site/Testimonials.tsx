@@ -2,11 +2,12 @@ import type { Testimonial } from "@/lib/content/types";
 import { SectionHeading } from "./SectionHeading";
 
 /**
- * Client quotes.
+ * Client quotes, set like pull-quotes in a printed brochure: oversized quote
+ * glyph, hairline grid, name and role in mono.
  *
- * Rendered as semantic blockquotes with <cite>. Content is edited in the admin
- * area (pages → testimonials); the defaults ship marked PLACEHOLDER so the
- * studio replaces them with real, permission-granted quotes before launch.
+ * Content is edited in the admin area (pages → testimonials); the defaults ship
+ * marked PLACEHOLDER so the studio replaces them with real, permission-granted
+ * quotes before launch.
  */
 export function Testimonials({
   items,
@@ -27,34 +28,40 @@ export function Testimonials({
   return (
     <section
       aria-labelledby="testimonials-heading"
-      className={`border-y border-brand-line ${tone === "surface" ? "bg-brand-surface/60" : "bg-brand-paper-deep/50"}`}
+      className={`border-b border-brand-line ${tone === "surface" ? "bg-brand-surface/70" : "bg-brand-paper"}`}
     >
-      <div className="container-page py-16 md:py-20">
-        <SectionHeading id="testimonials-heading" eyebrow={eyebrow} title={title} intro={intro} />
+      <div className="container-page py-16 md:py-24">
+        <SectionHeading id="testimonials-heading" index="04" eyebrow={eyebrow} title={title} intro={intro} />
 
-        <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid border-t border-brand-line md:grid-cols-2 lg:grid-cols-3">
           {usable.map((item, index) => (
-            <li key={`${item.name}-${index}`}>
-              <figure className="flex h-full flex-col rounded-[3px] border border-brand-line bg-brand-surface p-6">
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  className="h-6 w-6 fill-brand-accent/30"
-                  focusable="false"
-                >
-                  <path d="M9.5 5C6.5 6.6 5 9 5 12v7h6v-7H8c0-2 .5-3.4 2.6-4.6L9.5 5Zm9 0C15.5 6.6 14 9 14 12v7h6v-7h-3c0-2 .5-3.4 2.6-4.6L18.5 5Z" />
-                </svg>
-                <blockquote className="mt-4 flex-1">
-                  <p className="text-[0.95rem] leading-relaxed text-brand-primary/85">
-                    &ldquo;{item.quote}&rdquo;
-                  </p>
+            <li
+              key={`${item.name}-${index}`}
+              className="border-b border-brand-line py-8 md:px-7 md:[&:not(:last-child)]:border-r"
+            >
+              <figure className="flex h-full flex-col">
+                <div className="flex items-start justify-between gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="font-heading text-[2.6rem] leading-[0.6] text-brand-accent"
+                  >
+                    &ldquo;
+                  </span>
+                  <span aria-hidden="true" className="index text-brand-line">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <blockquote className="mt-5 flex-1">
+                  <p className="text-[0.95rem] leading-relaxed text-brand-primary/85">{item.quote}</p>
                 </blockquote>
-                <figcaption className="mt-5 border-t border-brand-line pt-4 text-sm">
-                  <cite className="font-heading font-bold not-italic text-brand-primary">
+                <figcaption className="mt-6 border-t border-brand-line pt-4">
+                  <cite className="font-heading text-[0.95rem] font-extrabold not-italic tracking-[-0.02em] text-brand-primary">
                     {item.name}
                   </cite>
                   {item.role ? (
-                    <span className="mt-0.5 block text-[0.78rem] text-brand-muted">{item.role}</span>
+                    <span className="mt-1 block font-mono text-[0.58rem] uppercase tracking-[0.16em] text-brand-muted">
+                      {item.role}
+                    </span>
                   ) : null}
                 </figcaption>
               </figure>

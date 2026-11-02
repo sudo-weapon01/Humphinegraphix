@@ -42,6 +42,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Lets the dev server accept requests from a hosted preview origin.
+  allowedDevOrigins: ["*.e2b.app", "*.vercel.app"],
   poweredByHeader: false,
   images: {
     // Portfolio images saved by staff can point at an external URL or at /public.

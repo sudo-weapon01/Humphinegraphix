@@ -10,8 +10,8 @@ const ALL = "All";
 /**
  * Filterable portfolio grid with a keyboard-accessible lightbox.
  *
- * Filters are plain buttons (no routing), so filtering never costs a request and
- * every flyer type stays reachable for keyboard and screen-reader users. The
+ * Filters are underline tabs (no routing), so filtering never costs a request
+ * and every flyer type stays reachable for keyboard and screen-reader users. The
  * lightbox is a real dialog: it traps Tab, closes on Escape or backdrop click,
  * and returns focus to the card that opened it.
  */
@@ -92,8 +92,8 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
   return (
     <div>
       {/* ------------------------------ Filters ------------------------------ */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div role="group" aria-label="Filter portfolio by flyer type" className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-3 border-b border-brand-line pb-3 lg:flex-row lg:items-end lg:justify-between">
+        <div role="group" aria-label="Filter portfolio by flyer type" className="flex flex-wrap gap-x-5 gap-y-2">
           {flyerTypes.map((type) => {
             const isActive = type === filter;
             return (
@@ -102,25 +102,29 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
                 type="button"
                 onClick={() => setFilter(type)}
                 aria-pressed={isActive}
-                className={`rounded-full border px-3.5 py-1.5 text-[0.8rem] font-medium transition-colors ${
-                  isActive
-                    ? "border-brand-primary bg-brand-primary text-brand-paper"
-                    : "border-brand-line bg-brand-surface text-brand-primary/75 hover:border-brand-primary/40 hover:text-brand-primary"
+                className={`group relative pb-1.5 font-mono text-[0.66rem] uppercase tracking-[0.14em] transition-colors ${
+                  isActive ? "text-brand-primary" : "text-brand-muted hover:text-brand-primary"
                 }`}
               >
                 {type}
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-0 -bottom-[0.9rem] h-[2px] origin-left bg-brand-accent transition-transform duration-200 ${
+                    isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
               </button>
             );
           })}
         </div>
-        <p aria-live="polite" className="text-[0.8rem] text-brand-muted">
-          {visible.length} {visible.length === 1 ? "flyer" : "flyers"}
-          {filter === ALL ? "" : ` · ${filter}`}
+        <p aria-live="polite" className="index text-brand-muted">
+          {String(visible.length).padStart(2, "0")} {visible.length === 1 ? "flyer" : "flyers"}
+          {filter === ALL ? " · all types" : ` · ${filter}`}
         </p>
       </div>
 
       {/* ------------------------------- Grid -------------------------------- */}
-      <ul className="mt-8 grid gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((item, index) => (
           <li key={item.id}>
             <article className="group">
@@ -132,36 +136,42 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
                   setOpenIndex(index);
                   track(ANALYTICS_EVENTS.portfolioOpened, { title: item.title });
                 }}
-                className="relative block w-full overflow-hidden rounded-[3px] border border-brand-line bg-brand-paper-deep text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
+                className="relative block w-full overflow-hidden border border-brand-line bg-brand-surface p-1.5 text-left transition-colors duration-300 hover:border-brand-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
                 aria-label={`Enlarge ${item.title} flyer`}
               >
-                <span className="block aspect-[3/4]">
+                <span className="block aspect-[3/4] overflow-hidden bg-brand-paper-deep">
                   <Image
                     src={item.image}
                     alt={item.imageAlt || `${item.title} flyer design`}
                     width={800}
                     height={1067}
                     sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
                 </span>
-                <span className="absolute left-3 top-3 rounded-[2px] bg-brand-primary/90 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-brand-paper backdrop-blur">
+                <span className="absolute left-3 top-3 bg-brand-paper/95 px-2 py-1 font-mono text-[0.55rem] uppercase tracking-[0.16em] text-brand-primary backdrop-blur">
                   {item.flyerType}
                 </span>
                 <span
                   aria-hidden="true"
-                  className="absolute bottom-3 right-3 grid h-9 w-9 place-items-center rounded-full bg-brand-paper/90 text-brand-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+                  className="absolute bottom-3 right-3 grid h-8 w-8 place-items-center bg-brand-primary text-brand-paper opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
                 >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 9V4h5M20 15v5h-5M20 9V4h-5M4 15v5h5" strokeLinecap="round" />
                   </svg>
                 </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-3 left-3 bg-brand-primary/85 px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.16em] text-brand-paper backdrop-blur"
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </button>
-              <div className="mt-4">
-                <h3 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">
+              <div className="mt-4 border-t border-brand-line pt-3">
+                <h3 className="font-heading text-[1.05rem] font-extrabold tracking-[-0.025em] text-brand-primary">
                   {item.title}
                 </h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-brand-muted">{item.description}</p>
+                <p className="mt-1.5 text-[0.85rem] leading-relaxed text-brand-muted">{item.description}</p>
               </div>
             </article>
           </li>
@@ -169,7 +179,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
       </ul>
 
       {visible.length === 0 ? (
-        <p className="mt-8 rounded-[3px] border border-dashed border-brand-line p-6 text-sm text-brand-muted">
+        <p className="mt-8 border border-dashed border-brand-line p-6 text-sm text-brand-muted">
           No flyers in this category yet. Choose another category or{" "}
           <button type="button" className="font-semibold text-brand-primary underline" onClick={() => setFilter(ALL)}>
             show all flyers
@@ -181,7 +191,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
       {/* ------------------------------ Lightbox ----------------------------- */}
       {active ? (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-brand-primary/90 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-brand-primary/95 p-4 backdrop-blur-sm"
           onClick={(event) => {
             if (event.target === event.currentTarget) close();
           }}
@@ -192,7 +202,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
             aria-modal="true"
             aria-labelledby="lightbox-title"
             aria-describedby="lightbox-description"
-            className="relative flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-y-auto rounded-[3px] bg-brand-paper md:flex-row"
+            className="relative flex max-h-[92dvh] w-full max-w-5xl flex-col overflow-y-auto border border-brand-paper/20 bg-brand-paper md:flex-row"
           >
             <div className="relative w-full bg-brand-paper-deep md:w-[58%]">
               <Image
@@ -206,20 +216,25 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
             </div>
 
             <div className="flex flex-1 flex-col p-6 md:p-8">
-              <span className="w-fit rounded-[2px] border border-brand-line px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-brand-primary/70">
-                {active.flyerType}
-              </span>
+              <div className="flex items-center justify-between gap-3">
+                <span className="border border-brand-line px-2 py-1 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-brand-muted">
+                  {active.flyerType}
+                </span>
+                <span aria-hidden="true" className="index text-brand-line">
+                  {String((openIndex ?? 0) + 1).padStart(2, "0")} / {String(visible.length).padStart(2, "0")}
+                </span>
+              </div>
               <h2
                 id="lightbox-title"
-                className="mt-4 font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand-primary"
+                className="mt-5 display text-[clamp(1.7rem,3.6vw,2.6rem)] text-brand-primary"
               >
                 {active.title}
               </h2>
-              <p id="lightbox-description" className="mt-3 text-sm leading-relaxed text-brand-muted">
+              <p id="lightbox-description" className="mt-4 text-[0.9rem] leading-relaxed text-brand-muted">
                 {active.description}
               </p>
 
-              <p className="mt-6 text-[0.8rem] leading-relaxed text-brand-muted">
+              <p className="mt-6 border-t border-brand-line pt-4 text-[0.82rem] leading-relaxed text-brand-muted">
                 Want a flyer like this? Send the brief and the studio will reply with a full quote.
               </p>
 
@@ -231,22 +246,19 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
                       current === null ? current : (current - 1 + visible.length) % visible.length,
                     )
                   }
-                  className="rounded-[2px] border border-brand-line px-3 py-2 text-sm font-medium text-brand-primary hover:border-brand-primary"
+                  className="border border-brand-line px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-brand-primary transition-colors hover:border-brand-primary"
                 >
-                  ← Previous
+                  ← Prev
                 </button>
                 <button
                   type="button"
                   onClick={() =>
                     setOpenIndex((current) => (current === null ? current : (current + 1) % visible.length))
                   }
-                  className="rounded-[2px] border border-brand-line px-3 py-2 text-sm font-medium text-brand-primary hover:border-brand-primary"
+                  className="border border-brand-line px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-brand-primary transition-colors hover:border-brand-primary"
                 >
                   Next →
                 </button>
-                <span className="text-[0.75rem] text-brand-muted tabular-nums">
-                  {(openIndex ?? 0) + 1} of {visible.length}
-                </span>
               </div>
             </div>
 
@@ -254,7 +266,7 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
               type="button"
               ref={closeRef}
               onClick={close}
-              className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-brand-paper/90 text-brand-primary shadow-sm ring-1 ring-brand-line hover:bg-brand-paper"
+              className="absolute right-3 top-3 grid h-9 w-9 place-items-center border border-brand-line bg-brand-paper text-brand-primary transition-colors hover:bg-brand-primary hover:text-brand-paper"
             >
               <span className="sr-only">Close enlarged flyer</span>
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">

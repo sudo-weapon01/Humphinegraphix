@@ -63,7 +63,7 @@ export function ContentNode({ path, value, errors, onChange, depth = 0 }: Conten
           <button
             type="button"
             onClick={addItem}
-            className="rounded-[2px] border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary hover:bg-brand-paper-deep"
+            className="rounded-none border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary hover:bg-brand-paper-deep"
           >
             + Add {typeof first === "string" ? "line" : "item"}
           </button>
@@ -71,7 +71,7 @@ export function ContentNode({ path, value, errors, onChange, depth = 0 }: Conten
         {errors[path] ? <p className="mt-1 text-[0.75rem] text-[#b3261e]">{errors[path]}</p> : null}
         <div className="mt-3 space-y-3">
           {value.map((child, index) => (
-            <div key={index} className="rounded-[2px] border border-brand-line bg-brand-paper/60 p-3">
+            <div key={index} className="rounded-none border border-brand-line bg-brand-paper/60 p-3">
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-brand-muted">
                   {typeof first === "string" ? `Line ${index + 1}` : `Item ${index + 1}`}

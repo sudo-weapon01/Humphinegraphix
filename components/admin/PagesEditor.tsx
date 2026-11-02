@@ -47,7 +47,7 @@ export function PagesEditor({ initial }: { initial: SitePages }) {
           <section
             key={section}
             aria-labelledby={`section-${section}`}
-            className="rounded-[3px] border border-brand-line bg-brand-surface p-5 md:p-6"
+            className="rounded-none border border-brand-line bg-brand-surface p-5 md:p-6"
           >
             <header className="mb-5 border-b border-brand-line pb-3">
               <h2
@@ -72,7 +72,7 @@ export function PagesEditor({ initial }: { initial: SitePages }) {
         ))}
       </div>
 
-      <div className="mt-8 rounded-[3px] border border-dashed border-brand-line p-5 text-[0.8rem] leading-relaxed text-brand-muted">
+      <div className="mt-8 rounded-none border border-dashed border-brand-line p-5 text-[0.8rem] leading-relaxed text-brand-muted">
         Changes are saved as a <strong className="text-brand-primary">draft</strong> and stay off the
         public site until you press <strong className="text-brand-primary">Publish</strong> in the
         bar at the top of the admin area.

@@ -58,7 +58,7 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
 
       <ul className="space-y-5">
         {editor.value.map((service, index) => (
-          <li key={service.id} className="rounded-[3px] border border-brand-line bg-brand-surface p-5">
+          <li key={service.id} className="rounded-none border border-brand-line bg-brand-surface p-5">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
               <span className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-brand-muted">
                 Service {index + 1}
@@ -68,7 +68,7 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
                   type="button"
                   onClick={() => move(index, -1)}
                   disabled={index === 0}
-                  className="rounded-[2px] border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
+                  className="rounded-none border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
                 >
                   ↑ Up
                 </button>
@@ -76,14 +76,14 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
                   type="button"
                   onClick={() => move(index, 1)}
                   disabled={index === editor.value.length - 1}
-                  className="rounded-[2px] border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
+                  className="rounded-none border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
                 >
                   ↓ Down
                 </button>
                 <button
                   type="button"
                   onClick={() => setServices(editor.value.filter((_, i) => i !== index))}
-                  className="rounded-[2px] border border-[#b3261e]/30 px-2 py-1 text-[0.72rem] font-semibold text-[#b3261e] hover:bg-[#fbeceb]"
+                  className="rounded-none border border-[#b3261e]/30 px-2 py-1 text-[0.72rem] font-semibold text-[#b3261e] hover:bg-[#fbeceb]"
                 >
                   Delete
                 </button>
@@ -150,7 +150,7 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
                         }
                         placeholder="e.g. Live music or concert"
                         aria-label={`New flyer type for ${service.name || "service"}`}
-                        className="w-full max-w-xs rounded-[2px] border border-brand-line bg-brand-surface px-3 py-1.5 text-sm"
+                        className="w-full max-w-xs rounded-none border border-brand-line bg-brand-surface px-3 py-1.5 text-sm"
                       />
                       <button
                         type="button"
@@ -160,7 +160,7 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
                           update(index, { flyerTypes: [...service.flyerTypes, value] });
                           setNewType((current) => ({ ...current, [index]: "" }));
                         }}
-                        className="rounded-[2px] border border-brand-line px-3 py-1.5 text-[0.75rem] font-semibold text-brand-primary hover:bg-brand-paper-deep"
+                        className="rounded-none border border-brand-line px-3 py-1.5 text-[0.75rem] font-semibold text-brand-primary hover:bg-brand-paper-deep"
                       >
                         Add type
                       </button>
@@ -174,7 +174,7 @@ export function ServicesEditor({ initial }: { initial: Service[] }) {
       </ul>
 
       {editor.value.length === 0 ? (
-        <p className="rounded-[3px] border border-dashed border-brand-line p-6 text-center text-sm text-brand-muted">
+        <p className="rounded-none border border-dashed border-brand-line p-6 text-center text-sm text-brand-muted">
           No services yet. Add one so it appears on the Services page and in the quote form.
         </p>
       ) : null}

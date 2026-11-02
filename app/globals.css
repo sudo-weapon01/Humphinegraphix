@@ -2,43 +2,45 @@
 
 /*
  * ---------------------------------------------------------------------------
- * Humphinegraphix brand theme
+ * Humphinegraphix — studio design system
  * ---------------------------------------------------------------------------
- * Every value below that the studio has not supplied yet is marked
- * PLACEHOLDER_. Replace the values here and the whole site updates, because
- * components only ever reference these tokens (via Tailwind utilities such as
- * `bg-brand-primary` or the CSS variables directly).
+ * A print-poster direction: heavy expanded grotesk headlines, monospaced
+ * technical labels, hairline rules, square corners, warm paper stock and one
+ * loud signal red. Everything the studio has not supplied yet is still a
+ * PLACEHOLDER_ token, so replacing the values here re-skins the whole site.
  *
- * Palette rationale (placeholder direction): deep ink navy for authority,
- * warm rust/amber accent for the "print & ink" feel, warm paper neutrals.
+ * Contrast (WCAG AA) on the paper background:
+ *   ink 16.3:1 · muted 6.3:1 · accent-strong 5.5:1 · accent 3.1:1 (large/graphic
+ *   only, never small text) · paper/ink 16.3:1 · gold/ink 11.5:1.
  * ---------------------------------------------------------------------------
  */
 @theme {
-  /* ---- Brand colours (PLACEHOLDER) -------------------------------------- */
-  --color-brand-primary: #10233f; /* PLACEHOLDER_BRAND_PRIMARY (ink navy) */
-  --color-brand-primary-soft: #1c3557; /* PLACEHOLDER_BRAND_PRIMARY_SOFT */
-  --color-brand-accent: #d9622b; /* PLACEHOLDER_BRAND_ACCENT (rust) */
-  /* Darker rust used for small text so it meets WCAG AA on paper. */
-  --color-brand-accent-strong: #b8481a; /* PLACEHOLDER_BRAND_ACCENT_STRONG */
-  --color-brand-accent-soft: #f6e3d7; /* PLACEHOLDER_BRAND_ACCENT_SOFT */
-  --color-brand-gold: #e8b04b; /* PLACEHOLDER_BRAND_SECONDARY (gold) */
-  --color-brand-ink: #12100e; /* PLACEHOLDER_BRAND_INK (body text) */
-  --color-brand-muted: #5c6472; /* PLACEHOLDER_BRAND_MUTED (secondary text) */
-  --color-brand-paper: #faf6f0; /* PLACEHOLDER_BRAND_PAPER (page bg) */
-  --color-brand-paper-deep: #f1e9de; /* PLACEHOLDER_BRAND_PAPER_DEEP */
-  --color-brand-line: #e3d8c9; /* PLACEHOLDER_BRAND_LINE (borders) */
-  --color-brand-surface: #ffffff; /* PLACEHOLDER_BRAND_SURFACE (cards) */
+  /* ---- Brand colours (PLACEHOLDER_BRAND_*) ------------------------------ */
+  --color-brand-primary: #131211; /* PLACEHOLDER_BRAND_PRIMARY (ink) */
+  --color-brand-primary-soft: #2a2723; /* PLACEHOLDER_BRAND_PRIMARY_SOFT */
+  --color-brand-accent: #ff3b00; /* PLACEHOLDER_BRAND_ACCENT (signal red) */
+  /* Deeper red for small text so it meets AA on paper. */
+  --color-brand-accent-strong: #b62b00; /* PLACEHOLDER_BRAND_ACCENT_STRONG */
+  --color-brand-accent-soft: #ffe3d6; /* PLACEHOLDER_BRAND_ACCENT_SOFT */
+  --color-brand-gold: #e4c87f; /* PLACEHOLDER_BRAND_SECONDARY (chalk gold) */
+  --color-brand-ink: #131211; /* PLACEHOLDER_BRAND_INK (body text) */
+  --color-brand-muted: #5c574e; /* PLACEHOLDER_BRAND_MUTED (secondary text) */
+  --color-brand-paper: #f3efe6; /* PLACEHOLDER_BRAND_PAPER (page bg) */
+  --color-brand-paper-deep: #e7e1d4; /* PLACEHOLDER_BRAND_PAPER_DEEP */
+  --color-brand-line: #d3ccbc; /* PLACEHOLDER_BRAND_LINE (hairlines) */
+  --color-brand-surface: #fbf8f2; /* PLACEHOLDER_BRAND_SURFACE (cards) */
 
-  /* ---- Typography (PLACEHOLDER) ----------------------------------------- */
-  /* PLACEHOLDER_HEADING_FONT — swap for the studio's licensed display face. */
-  --font-heading: "Archivo", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
-  /* PLACEHOLDER_BODY_FONT — swap for the studio's licensed text face. */
-  --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* ---- Typography (PLACEHOLDER_*_FONT) --------------------------------- */
+  /* Bundled variable faces (see app/layout.tsx imports). Swap these two names
+     for the studio's licensed typefaces and every page follows. */
+  --font-heading: "Archivo Variable", "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter Variable", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
 
-  /* ---- Layout ------------------------------------------------------------ */
-  --radius-card: 0.25rem;
-  --shadow-card: 0 1px 2px rgb(18 16 14 / 0.04), 0 12px 32px -18px rgb(18 16 14 / 0.28);
-  --shadow-lift: 0 2px 4px rgb(18 16 14 / 0.06), 0 24px 48px -24px rgb(18 16 14 / 0.35);
+  /* ---- Structure -------------------------------------------------------- */
+  --radius-card: 0px;
+  --shadow-card: 0 1px 0 rgb(19 18 17 / 0.06);
+  --shadow-lift: 0 18px 40px -28px rgb(19 18 17 / 0.45);
 }
 
 @layer base {
@@ -51,8 +53,20 @@
     background-color: var(--color-brand-paper);
     color: var(--color-brand-ink);
     font-family: var(--font-body);
+    font-feature-settings: "ss01" 1, "cv05" 1;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+
+  /* Paper grain: barely-there texture so the flat colours read as stock. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -60,7 +74,9 @@
   h3,
   h4 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    font-stretch: 108%;
+    letter-spacing: -0.035em;
     text-wrap: balance;
   }
 
@@ -77,31 +93,193 @@
     background-color: var(--color-brand-accent);
     color: #fff;
   }
+
+  ::marker {
+    color: var(--color-brand-accent-strong);
+  }
 }
 
 @layer components {
-  /* Shared page container. */
+  /* ---------------------------- Layout ---------------------------------- */
   .container-page {
     width: 100%;
-    max-width: 74rem;
+    max-width: 82rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
 
   @media (min-width: 768px) {
     .container-page {
-      padding-inline: 2rem;
+      padding-inline: 2.5rem;
     }
   }
 
-  /* Small uppercase section label. */
-  .eyebrow {
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  /* Hairline divider used between editorial blocks. */
+  .rule {
+    border-top: 1px solid var(--color-brand-line);
+  }
+
+  /* --------------------------- Typography ------------------------------- */
+  /* Technical label: mono, uppercase, wide tracking. */
+  .label {
     display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  /* Kept as an alias so existing sections keep their accent label look. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-brand-accent-strong);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.6;
+  }
+
+  /* Poster-scale headline. */
+  .display {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-stretch: 112%;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    text-transform: none;
+  }
+
+  .display-tight {
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+  }
+
+  /* Condensed variant for stacked footer mastheads. */
+  .display-cond {
+    font-stretch: 74%;
+    letter-spacing: -0.02em;
+    line-height: 0.82;
+  }
+
+  /* Numbers and indices. */
+  .index {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --------------------------- Surfaces --------------------------------- */
+  .card-flat {
+    background-color: var(--color-brand-surface);
+    border: 1px solid var(--color-brand-line);
+  }
+
+  /* Fine vertical rails behind a section (studio grid feel). */
+  .rails {
+    position: relative;
+  }
+
+  .rails::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--color-brand-line) 0 1px,
+      transparent 1px 25%
+    );
+    opacity: 0.55;
+    mask-image: linear-gradient(to bottom, rgb(0 0 0 / 2%), rgb(0 0 0 / 45%), transparent);
+  }
+
+  /* Arrow that shifts on hover, used by buttons and links. */
+  .arrow {
+    display: inline-block;
+    transition: transform 200ms ease-out;
+  }
+
+  a:hover > .arrow,
+  button:hover > .arrow,
+  .group:hover .arrow {
+    transform: translateX(0.25rem);
+  }
+
+  /* Underline that draws in on hover. */
+  .link-draw {
+    position: relative;
+  }
+
+  .link-draw::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.15em;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 240ms ease-out;
+  }
+
+  .link-draw:hover::after,
+  .link-draw:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* ------------------------- Form controls ------------------------------ */
+  .field-input {
+    width: 100%;
+    border: 1px solid var(--color-brand-line);
+    border-radius: 0;
+    background-color: var(--color-brand-surface);
+    padding: 0.7rem 0.85rem;
+    font-size: 0.9rem;
+    color: var(--color-brand-ink);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .field-input::placeholder {
+    color: color-mix(in srgb, var(--color-brand-muted) 92%, transparent);
+  }
+
+  .field-input:hover {
+    border-color: color-mix(in srgb, var(--color-brand-ink) 30%, var(--color-brand-line));
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-brand-ink);
+    box-shadow: inset 0 0 0 1px var(--color-brand-ink);
+  }
+
+  .field-input[aria-invalid="true"] {
+    border-color: #a4221a;
+  }
+
+  .field-input[aria-invalid="true"]:focus {
+    box-shadow: inset 0 0 0 1px #a4221a;
   }
 }
 
@@ -109,11 +287,26 @@
 /* Motion                                                                     */
 /* -------------------------------------------------------------------------- */
 
+/* Slow marquee strip under the hero. */
+@keyframes hg-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: hg-marquee 42s linear infinite;
+}
+
 /*
  * Anyone who asks their device to reduce motion gets no transitions, no smooth
- * scrolling, and no spinning loader — the quote form still reports progress via
- * text. This is a site-wide override, not per component, so new components
- * inherit the behaviour automatically.
+ * scrolling, no marquee and no spinning loader — the quote form still reports
+ * progress via text. Site-wide, so new components inherit the behaviour.
  */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -127,6 +320,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
   }
 }
 

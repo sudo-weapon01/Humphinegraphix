@@ -68,7 +68,7 @@ export default async function AdminOverviewPage() {
           <Link
             key={card.href}
             href={card.href}
-            className="group rounded-[3px] border border-brand-line bg-brand-surface p-5 transition-shadow hover:shadow-card"
+            className="group rounded-none border border-brand-line bg-brand-surface p-5 transition-shadow hover:shadow-card"
           >
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
               {card.label}
@@ -85,7 +85,7 @@ export default async function AdminOverviewPage() {
       </div>
 
       <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
+        <div className="rounded-none border border-brand-line bg-brand-surface p-6">
           <h2 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">
             Publishing
           </h2>
@@ -110,7 +110,7 @@ export default async function AdminOverviewPage() {
           </p>
         </div>
 
-        <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
+        <div className="rounded-none border border-brand-line bg-brand-surface p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">
               Latest quote requests
@@ -140,7 +140,7 @@ export default async function AdminOverviewPage() {
         </div>
       </section>
 
-      <section className="rounded-[3px] border border-dashed border-brand-line bg-brand-paper-deep/60 p-5 text-[0.8rem] leading-relaxed text-brand-muted">
+      <section className="rounded-none border border-dashed border-brand-line bg-brand-paper-deep/60 p-5 text-[0.8rem] leading-relaxed text-brand-muted">
         <strong className="text-brand-primary">Placeholders to replace:</strong> brand colours and
         fonts live in <code>app/globals.css</code>; contact details are edited in{" "}
         <Link href="/admin/pages" className="font-semibold text-brand-primary underline underline-offset-2">

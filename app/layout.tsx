@@ -1,4 +1,8 @@
 import type { Metadata, Viewport } from "next";
+// Bundled variable fonts: Archivo (display, with a width axis) and Inter (text).
+// Self-hosted, so there is no third-party font request at runtime.
+import "@fontsource-variable/archivo/wdth.css";
+import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import { VercelAnalytics } from "@/components/site/VercelAnalytics";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
@@ -11,9 +15,10 @@ const OG_IMAGE = {
 };
 
 /*
- * TODO (brand fonts): the studio's licensed typefaces can be dropped in here
- * with `next/font/local` and referenced by the --font-heading / --font-body
- * tokens in app/globals.css. Until then the site uses system stacks.
+ * TODO (brand fonts): the studio's licensed typefaces can be dropped in with
+ * `next/font/local` and referenced by the --font-heading / --font-body tokens
+ * in app/globals.css. The bundled Archivo + Inter pairing is the placeholder
+ * direction: expanded grotesk display, neutral text face.
  */
 
 export const metadata: Metadata = {
@@ -51,7 +56,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10233f",
+  themeColor: "#131211",
   width: "device-width",
   initialScale: 1,
 };
@@ -59,7 +64,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-dvh antialiased">
+      <body className="min-h-dvh bg-brand-paper font-body text-brand-ink antialiased">
         {children}
         <VercelAnalytics />
       </body>

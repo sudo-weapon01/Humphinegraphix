@@ -358,7 +358,7 @@ Search the repo for `PLACEHOLDER_` and `TODO` to find them.
 | Placeholder | Where |
 | --- | --- |
 | Brand colours (`PLACEHOLDER_BRAND_*`) | `app/globals.css` → `@theme` block |
-| Heading and body fonts (`PLACEHOLDER_HEADING_FONT`, `PLACEHOLDER_BODY_FONT`) | `app/globals.css` tokens; add the licensed files with `next/font/local` in `app/layout.tsx` |
+| Heading and body fonts (`PLACEHOLDER_HEADING_FONT`, `PLACEHOLDER_BODY_FONT`) | `--font-heading` / `--font-body` in `app/globals.css`; the bundled Archivo + Inter imports are in `app/layout.tsx` |
 | Email, phone, address, hours, social link | Admin → Page copy → Contact page & details (seed values in `lib/content/defaults.ts`) |
 | Portfolio images and copy | Admin → Portfolio; seed data in `lib/content/defaults.ts`, images in `public/images/portfolio/` |
 | Budget ranges and currency (`PLACEHOLDER_BUDGET_RANGES`) | `lib/quote.ts` |
@@ -376,11 +376,36 @@ portfolio work — replace them with the studio's own flyers.
 
 ## Brand system
 
+The visual direction is **print studio**: expanded grotesk headlines, monospaced
+technical labels, hairline rules, square corners, warm paper stock, and one loud
+signal red used for marks and accents.
+
 All visual tokens live in one `@theme` block in `app/globals.css`: colours
 (`brand-primary`, `brand-accent`, `brand-gold`, `brand-ink`, `brand-muted`,
-`brand-paper`, `brand-line`, `brand-surface`), fonts (`font-heading`, `font-body`),
-radii, and shadows. Components only use these tokens, so changing a value there
-updates the whole site.
+`brand-paper`, `brand-line`, `brand-surface`), fonts (`font-heading`, `font-body`,
+`font-mono`), radii, and shadows. Components only use these tokens, so changing a
+value there updates the whole site.
+
+| Token | Placeholder value | Notes |
+| --- | --- | --- |
+| `PLACEHOLDER_BRAND_PRIMARY` | `#131211` ink | Text, dark blocks, footer |
+| `PLACEHOLDER_BRAND_ACCENT` | `#ff3b00` signal red | Fills, rules, large display type (3.1:1 — never small text) |
+| `PLACEHOLDER_BRAND_ACCENT_STRONG` | `#b62b00` | Small accent text (5.5:1 on paper) |
+| `PLACEHOLDER_BRAND_SECONDARY` | `#e4c87f` chalk gold | Labels on the ink footer (11.5:1) |
+| `PLACEHOLDER_BRAND_PAPER` | `#f3efe6` | Page background |
+| `PLACEHOLDER_BRAND_LINE` | `#d3ccbc` | Hairlines |
+
+Type is self-hosted, so there is no third-party font request at runtime:
+
+- `PLACEHOLDER_HEADING_FONT` — **Archivo Variable** (`@fontsource-variable/archivo`,
+  used with its width axis for expanded headlines and condensed mastheads).
+- `PLACEHOLDER_BODY_FONT` — **Inter Variable** (`@fontsource-variable/inter`).
+- Monospaced labels use the system mono stack (`--font-mono`).
+
+To use the studio's licensed faces, install them, import the CSS in
+`app/layout.tsx`, and change the two font tokens. Layout primitives that give the
+site its rhythm are also in `globals.css`: `.display`, `.display-cond`, `.label`,
+`.index`, `.rule`, `.rails`, `.field-input`, `.link-draw`, `.marquee-track`.
 
 ## Scope boundaries
 

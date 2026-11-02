@@ -100,7 +100,7 @@ export function PublishHistory() {
       </button>
 
       {open ? (
-        <div id="publish-history" className="mt-3 rounded-[3px] border border-brand-line bg-brand-surface p-4">
+        <div id="publish-history" className="mt-3 rounded-none border border-brand-line bg-brand-surface p-4">
           {entries === null ? (
             <p className="text-[0.78rem] text-brand-muted">Loading…</p>
           ) : entries.length === 0 ? (
@@ -124,7 +124,7 @@ export function PublishHistory() {
                     type="button"
                     onClick={() => void restore(entry.id, entry.publishedAt)}
                     disabled={busyId !== null}
-                    className="rounded-[2px] border border-brand-line px-2.5 py-1 text-[0.72rem] font-semibold text-brand-primary hover:border-brand-primary disabled:opacity-50"
+                    className="rounded-none border border-brand-line px-2.5 py-1 text-[0.72rem] font-semibold text-brand-primary hover:border-brand-primary disabled:opacity-50"
                   >
                     {busyId === entry.id ? "Restoring…" : "Restore"}
                   </button>
@@ -136,7 +136,7 @@ export function PublishHistory() {
           <div aria-live="polite">
             {message ? (
               <p
-                className={`mt-3 rounded-[2px] px-2.5 py-1.5 text-[0.75rem] ${
+                className={`mt-3 rounded-none px-2.5 py-1.5 text-[0.75rem] ${
                   message.tone === "error"
                     ? "bg-[#fbeceb] text-[#8c1d18]"
                     : "bg-emerald-50 text-emerald-900"

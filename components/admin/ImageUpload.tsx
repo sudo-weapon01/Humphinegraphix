@@ -52,7 +52,7 @@ export function ImageUpload({
     <div>
       <label
         htmlFor={inputId}
-        className="inline-flex cursor-pointer items-center gap-2 rounded-[2px] border border-brand-line bg-brand-paper-deep px-3 py-2 text-[0.75rem] font-semibold text-brand-primary hover:bg-brand-line"
+        className="inline-flex cursor-pointer items-center gap-2 rounded-none border border-brand-line bg-brand-paper-deep px-3 py-2 text-[0.75rem] font-semibold text-brand-primary hover:bg-brand-line"
       >
         {busy ? "Uploading…" : label}
         <input

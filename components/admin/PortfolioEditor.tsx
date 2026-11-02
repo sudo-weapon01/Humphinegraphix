@@ -74,10 +74,10 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
         {editor.value.map((item, index) => (
           <li
             key={item.id}
-            className="grid gap-5 rounded-[3px] border border-brand-line bg-brand-surface p-5 md:grid-cols-[10rem_1fr]"
+            className="grid gap-5 rounded-none border border-brand-line bg-brand-surface p-5 md:grid-cols-[10rem_1fr]"
           >
             <div>
-              <div className="aspect-[3/4] overflow-hidden rounded-[2px] border border-brand-line bg-brand-paper-deep">
+              <div className="aspect-[3/4] overflow-hidden rounded-none border border-brand-line bg-brand-paper-deep">
                 {item.image ? (
                   <img
                     src={item.image}
@@ -110,7 +110,7 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
                     type="button"
                     onClick={() => move(index, -1)}
                     disabled={index === 0}
-                    className="rounded-[2px] border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
+                    className="rounded-none border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
                   >
                     ↑ Up
                   </button>
@@ -118,7 +118,7 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
                     type="button"
                     onClick={() => move(index, 1)}
                     disabled={index === editor.value.length - 1}
-                    className="rounded-[2px] border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
+                    className="rounded-none border border-brand-line px-2 py-1 text-[0.72rem] font-semibold text-brand-primary disabled:opacity-40"
                   >
                     ↓ Down
                   </button>
@@ -127,7 +127,7 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
                     onClick={() =>
                       editor.setValue((current) => current.filter((_, i) => i !== index))
                     }
-                    className="rounded-[2px] border border-[#b3261e]/30 px-2 py-1 text-[0.72rem] font-semibold text-[#b3261e] hover:bg-[#fbeceb]"
+                    className="rounded-none border border-[#b3261e]/30 px-2 py-1 text-[0.72rem] font-semibold text-[#b3261e] hover:bg-[#fbeceb]"
                   >
                     Delete
                   </button>

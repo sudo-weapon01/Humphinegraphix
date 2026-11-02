@@ -1,8 +1,8 @@
 import { SectionHeading } from "./SectionHeading";
 
 /**
- * "What you get" — the deliverables, shown as visual blocks rather than a
- * paragraph, so the value is legible at a glance. No prices appear here.
+ * "What you get" — the deliverables, shown as a numbered file list rather than
+ * paragraphs, so the value is legible at a glance. No prices appear here.
  */
 export function WhatYouGet({
   eyebrow = "Deliverables",
@@ -15,54 +15,47 @@ export function WhatYouGet({
 }) {
   const blocks = [
     {
-      icon: (
-        <path d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6" strokeLinecap="round" strokeLinejoin="round" />
-      ),
+      tag: "PDF",
       title: "Print-ready PDF",
       body: "CMYK artwork at 300 dpi with bleed and crop marks — the file your printer actually wants.",
     },
     {
-      icon: <path d="M4 5h16v11H4zM9 20h6M12 16v4" strokeLinecap="round" strokeLinejoin="round" />,
+      tag: "PNG",
       title: "Social crops",
-      body: "Square and vertical PNG/JPG exports sized for Instagram, WhatsApp status, and Facebook.",
+      body: "Square and vertical exports sized for Instagram, WhatsApp status, and Facebook.",
     },
     {
-      icon: <path d="M12 4v6m0 4v6M8 8h8M7 14h10" strokeLinecap="round" />,
-      title: "Editable text proof",
-      body: "A final proof with the wording locked in, so you can reuse the layout next season.",
+      tag: "PROOF",
+      title: "Final text proof",
+      body: "A signed-off proof with the wording locked in, so you can reuse the layout next season.",
     },
     {
-      icon: <path d="M12 3l3 6 6 1-4.5 4.5L18 21l-6-3-6 3 1.5-6.5L3 10l6-1z" strokeLinejoin="round" />,
+      tag: "EDIT",
       title: "One revision round",
       body: "Swap a date, tighten a headline, adjust the photo — included before final export.",
     },
   ];
 
   return (
-    <section aria-labelledby="whatyouget-heading" className="container-page py-16 md:py-20">
-      <SectionHeading id="whatyouget-heading" eyebrow={eyebrow} title={title} intro={intro} />
+    <section aria-labelledby="whatyouget-heading" className="container-page py-16 md:py-24">
+      <SectionHeading id="whatyouget-heading" index="05" eyebrow={eyebrow} title={title} intro={intro} />
 
-      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="mt-12 grid border-t border-brand-line sm:grid-cols-2">
         {blocks.map((block, index) => (
           <li
             key={block.title}
-            className="flex flex-col rounded-[3px] border border-brand-line bg-brand-surface p-6"
+            className="group border-b border-brand-line py-7 sm:px-7 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pl-0"
           >
-            <span
-              aria-hidden="true"
-              className="grid h-11 w-11 place-items-center rounded-[3px] bg-brand-accent-soft text-brand-accent-strong"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.6">
-                {block.icon}
-              </svg>
-            </span>
-            <h3 className="mt-4 font-heading text-base font-bold tracking-[-0.015em] text-brand-primary">
-              <span className="mr-1.5 tabular-nums text-brand-accent-strong" aria-hidden="true">
-                0{index + 1}
+            <div className="flex items-center justify-between gap-3">
+              <span className="index text-brand-accent-strong">{String(index + 1).padStart(2, "0")}</span>
+              <span className="border border-brand-line px-2 py-1 font-mono text-[0.55rem] uppercase tracking-[0.18em] text-brand-muted transition-colors group-hover:border-brand-primary group-hover:text-brand-primary">
+                {block.tag}
               </span>
+            </div>
+            <h3 className="mt-5 font-heading text-[1.15rem] font-extrabold tracking-[-0.03em] text-brand-primary">
               {block.title}
             </h3>
-            <p className="mt-2 text-[0.875rem] leading-relaxed text-brand-muted">{block.body}</p>
+            <p className="mt-2 max-w-sm text-[0.9rem] leading-relaxed text-brand-muted">{block.body}</p>
           </li>
         ))}
       </ul>

@@ -58,7 +58,7 @@ export default async function AdminPreviewPage() {
         </div>
         <Link
           href="/"
-          className="rounded-[2px] border border-brand-line px-3 py-2 text-[0.78rem] font-semibold text-brand-primary hover:border-brand-primary"
+          className="rounded-none border border-brand-line px-3 py-2 text-[0.78rem] font-semibold text-brand-primary hover:border-brand-primary"
         >
           Open live site ↗
         </Link>
@@ -68,7 +68,7 @@ export default async function AdminPreviewPage() {
         {/* ------------------------------- Home ------------------------------- */}
         <section
           aria-labelledby="preview-home"
-          className="rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+          className="rounded-none border border-brand-line bg-brand-surface p-6 md:p-8"
         >
           <h2 id="preview-home" className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-brand-muted">
             Home
@@ -88,14 +88,14 @@ export default async function AdminPreviewPage() {
             alt={drafts.pages.home.heroImageAlt}
             width={1200}
             height={1200}
-            className="mt-5 h-40 w-auto rounded-[2px] border border-brand-line object-cover"
+            className="mt-5 h-40 w-auto rounded-none border border-brand-line object-cover"
           />
         </section>
 
         {/* ----------------------------- Portfolio ---------------------------- */}
         <section
           aria-labelledby="preview-portfolio"
-          className="rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+          className="rounded-none border border-brand-line bg-brand-surface p-6 md:p-8"
         >
           <h2
             id="preview-portfolio"
@@ -105,12 +105,12 @@ export default async function AdminPreviewPage() {
           </h2>
           <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {drafts.portfolio.map((item) => (
-              <li key={item.id} className="rounded-[2px] border border-brand-line p-3">
+              <li key={item.id} className="rounded-none border border-brand-line p-3">
                 {/* eslint-disable-next-line @next/next/no-img-element -- preview only, any URL */}
                 <img
                   src={item.image}
                   alt=""
-                  className="aspect-[3/4] w-full rounded-[2px] object-cover"
+                  className="aspect-[3/4] w-full rounded-none object-cover"
                   loading="lazy"
                 />
                 <p className="mt-2 text-[0.8rem] font-semibold text-brand-primary">{item.title || "Untitled"}</p>
@@ -126,7 +126,7 @@ export default async function AdminPreviewPage() {
         {/* ------------------------------ Services ---------------------------- */}
         <section
           aria-labelledby="preview-services"
-          className="rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+          className="rounded-none border border-brand-line bg-brand-surface p-6 md:p-8"
         >
           <h2
             id="preview-services"
@@ -152,7 +152,7 @@ export default async function AdminPreviewPage() {
         {/* --------------------------- Copy + extras -------------------------- */}
         <section
           aria-labelledby="preview-copy"
-          className="rounded-[3px] border border-brand-line bg-brand-surface p-6 md:p-8"
+          className="rounded-none border border-brand-line bg-brand-surface p-6 md:p-8"
         >
           <h2
             id="preview-copy"
