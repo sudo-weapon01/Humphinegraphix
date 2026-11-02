@@ -25,7 +25,7 @@ export async function GET(request: Request) {
   const title = clean(searchParams.get("title"), 70) || SITE_NAME;
   const subtitle = clean(searchParams.get("subtitle"), 110) || SITE_TAGLINE;
 
-  return new ImageResponse(
+  const image = new ImageResponse(
     (
       <div
         style={{
@@ -125,4 +125,22 @@ export async function GET(request: Request) {
     ),
     size,
   );
+
+  // Health check used by the deployment smoke test: renders the image fully and
+  // reports the result as JSON, so a broken card is visible without an image
+  // viewer. Public pages never send this parameter.
+  if (searchParams.get("format") === "json") {
+    try {
+      const bytes = await image.arrayBuffer();
+      return Response.json({ ok: true, width: size.width, height: size.height, bytes: bytes.byteLength });
+    } catch (error) {
+      console.error("[og] render failed", error);
+      return Response.json(
+        { ok: false, message: error instanceof Error ? error.message : "render failed" },
+        { status: 500 },
+      );
+    }
+  }
+
+  return image;
 }

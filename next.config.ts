@@ -47,6 +47,15 @@ const nextConfig: NextConfig = {
     // Portfolio images saved by staff can point at an external URL or at /public.
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
+  // `next/og` reads its bundled font at runtime; make sure the tracing step keeps
+  // it in the server bundle for the social-card route.
+  outputFileTracingIncludes: {
+    "/og": [
+      "./node_modules/next/dist/compiled/@vercel/og/noto-sans-v27-latin-regular.ttf",
+      "./node_modules/next/dist/compiled/@vercel/og/resvg.wasm",
+      "./node_modules/next/dist/compiled/@vercel/og/yoga.wasm",
+    ],
+  },
   async headers() {
     return [
       {

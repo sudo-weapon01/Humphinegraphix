@@ -39,7 +39,7 @@ login is available on the sign-in screen (`studio` / `humphine-demo`). It is
 | `npm run dev` | Development server (Turbopack off by default). |
 | `npm run build` | Production build. |
 | `npm start` | Serve the production build. |
-| `npm test` | Run the Vitest suite (102 tests). |
+| `npm test` | Run the Vitest suite (103 tests). |
 | `npm run test:watch` | Watch mode. |
 | `npm run typecheck` | `tsc --noEmit`. |
 
@@ -216,7 +216,7 @@ lib/
   ratelimit.ts turnstile.ts turnstile-config.ts uploads.ts analytics.ts
 middleware.ts                Admin route gate
 supabase/schema.sql          Database schema
-tests/                       102 Vitest tests
+tests/                       103 Vitest tests
 ```
 
 ---
@@ -224,7 +224,7 @@ tests/                       102 Vitest tests
 ## Tests
 
 ```bash
-npm test           # 102 tests
+npm test           # 103 tests
 npm run typecheck  # tsc --noEmit
 npm run build      # production build
 ```
@@ -390,3 +390,19 @@ This project is deliberately limited to the requirements:
 - No order management — quote requests are leads that staff answer by email.
 - Content management only in the admin area (portfolio, services, page copy) plus a
   read-only quote-request inbox.
+
+## Deployment smoke test
+
+After deploying, these URLs should all answer:
+
+| URL | Expected |
+| --- | --- |
+| `/` | 200, home page |
+| `/portfolio` | 200, filter chips + 7 flyers |
+| `/privacy` | 200, five sections |
+| `/admin` | 307 → `/admin/login` |
+| `/robots.txt` | `Disallow: /admin` |
+| `/og?format=json&title=Test` | `{"ok":true,"width":1200,"height":630,...}` — proves the social-card renderer works |
+
+`/og` also accepts `format=json` so a deployment can verify image rendering without
+an image viewer; public pages never send that parameter.
