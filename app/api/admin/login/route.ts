@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isSameOrigin, jsonError, readJson } from "@/lib/api";
 import { getSessionSecret, getStaffCredentials } from "@/lib/auth-config";
+import { checkRateLimit, clientIpFrom, rateLimitMessage, resetRateLimit } from "@/lib/ratelimit";
 import {
   SESSION_COOKIE,
   createSessionToken,
@@ -14,6 +15,13 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   if (!isSameOrigin(request)) {
     return jsonError("Cross-origin requests are not allowed.", 403);
+  }
+
+  // Brute-force protection. Counts per client IP across sign-in attempts.
+  const ip = clientIpFrom(request);
+  const attemptLimit = await checkRateLimit("login", `ip:${ip}`);
+  if (!attemptLimit.allowed) {
+    return jsonError(rateLimitMessage(attemptLimit.retryAfterSeconds), 429);
   }
 
   const credentials = getStaffCredentials();
@@ -46,6 +54,7 @@ export async function POST(request: Request) {
     return jsonError("Those details don't match a studio account.", 401);
   }
 
+  await resetRateLimit("login", `ip:${ip}`);
   const token = await createSessionToken(credentials.username, getSessionSecret());
   const response = NextResponse.json({ ok: true, user: credentials.username });
   response.cookies.set(SESSION_COOKIE, token, sessionCookieOptions);

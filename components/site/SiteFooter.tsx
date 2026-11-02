@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { SitePages } from "@/lib/content/types";
 import { NAV_LINKS } from "@/lib/site";
+import { WhatsAppButton } from "./WhatsAppButton";
 import { Wordmark } from "./Wordmark";
 
 export function SiteFooter({ pages }: { pages: SitePages }) {
@@ -34,6 +35,11 @@ export function SiteFooter({ pages }: { pages: SitePages }) {
                 </li>
               ))}
               <li>
+                <Link className="text-brand-paper/75 transition-colors hover:text-brand-paper" href="/privacy">
+                  Privacy
+                </Link>
+              </li>
+              <li>
                 <Link className="text-brand-paper/75 transition-colors hover:text-brand-paper" href="/admin">
                   Studio sign in
                 </Link>
@@ -59,11 +65,19 @@ export function SiteFooter({ pages }: { pages: SitePages }) {
               <li className="max-w-[16rem] leading-relaxed">{contact.address}</li>
               <li>{contact.hours}</li>
             </ul>
+            <div className="mt-5">
+              <WhatsAppButton source="footer" variant="ghost" />
+            </div>
           </div>
         </div>
 
         <div className="mt-14 flex flex-col gap-3 border-t border-brand-paper/15 pt-6 text-xs text-brand-paper/55 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} Humphinegraphix. All rights reserved.</p>
+          <p>
+            <Link href="/privacy" className="underline underline-offset-4 hover:text-brand-paper">
+              Privacy notice
+            </Link>
+          </p>
           <p>Flyer design studio · {contact.socialLabel}</p>
         </div>
       </div>

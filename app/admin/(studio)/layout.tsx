@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { PublishBar } from "@/components/admin/PublishBar";
+import { PublishHistory } from "@/components/admin/PublishHistory";
 import { Wordmark } from "@/components/site/Wordmark";
 import { requireStaffSession } from "@/lib/auth";
 import { getPublishStatus } from "@/lib/content/store";
@@ -46,6 +47,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </header>
 
       <PublishBar status={status} />
+      <PublishHistory />
 
       {status.storage === "files" && process.env.NODE_ENV === "production" ? (
         <p className="border-b border-brand-gold/40 bg-brand-gold/15 px-5 py-2.5 text-center text-[0.78rem] text-brand-primary">

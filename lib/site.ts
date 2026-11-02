@@ -15,6 +15,7 @@ export const NAV_LINKS = [
 ] as const;
 
 export const ADMIN_URL = "/admin";
+
 export const QUOTE_URL = "/contact";
 
 /** Design facts shown on the home page — edit if the studio's terms change. */
@@ -63,3 +64,21 @@ export const AUDIENCE_CARDS = [
     audience: "personal" as const,
   },
 ] as const;
+
+/**
+ * PLACEHOLDER_WHATSAPP_NUMBER — set NEXT_PUBLIC_WHATSAPP_NUMBER to the studio's
+ * number in international format without "+" or spaces (e.g. 233241234567).
+ * WhatsApp links are hidden entirely when it is not configured, so we never ship
+ * a broken chat link.
+ */
+export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
+
+const WHATSAPP_MESSAGE =
+  "Hi Humphinegraphix — I'd like a quote for a flyer.";
+
+export function whatsappUrl(message: string = WHATSAPP_MESSAGE): string | null {
+  if (!WHATSAPP_NUMBER) return null;
+  const digits = WHATSAPP_NUMBER.replace(/\D/g, "");
+  if (digits.length < 8) return null;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+}

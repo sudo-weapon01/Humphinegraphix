@@ -1,6 +1,7 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element -- admin thumbnails may point anywhere */
+import { ImageUpload } from "./ImageUpload";
 import { SaveBar } from "./SaveBar";
 import { TextField } from "./Field";
 import { useDraftEditor } from "./useDraftEditor";
@@ -91,6 +92,12 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
                 )}
               </div>
               <p className="mt-2 break-all text-[0.68rem] text-brand-muted">{item.image}</p>
+              <div className="mt-2">
+                <ImageUpload
+                  label="Upload a new image"
+                  onUploaded={(url) => update(index, { image: url })}
+                />
+              </div>
             </div>
 
             <div>
@@ -155,7 +162,7 @@ export function PortfolioEditor({ initial, flyerTypeSuggestions }: PortfolioEdit
                   label="Image path or URL"
                   value={item.image}
                   error={errorFor(index, "image")}
-                  hint="A file in /public (e.g. /images/portfolio/my-flyer.jpg) or an https:// URL."
+                  hint="Paste a path in /public, an https:// URL, or use Upload a new image."
                   onChange={(value) => update(index, { image: value })}
                 />
                 <TextField

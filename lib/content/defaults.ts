@@ -94,6 +94,96 @@ export const defaultPages: SitePages = {
     socialLabel: "@humphinegraphix",
     socialUrl: "https://instagram.com/",
   },
+  // PLACEHOLDER_PRIVACY — have this reviewed against the studio's obligations
+  // under Ghana's Data Protection Act (2012) before going live.
+  privacy: {
+    title: "Privacy notice",
+    intro:
+      "Humphinegraphix collects only the details you send through the quote form, and only in order to reply to your request.",
+    updated: "PLACEHOLDER: last updated 2 November 2026",
+    sections: [
+      {
+        title: "What we collect",
+        body:
+          "When you send a quote request we store your name, email address, and — if you provide them — your phone number, event date, deadline, budget range, and the message you write. We also record the date the request was sent.",
+      },
+      {
+        title: "Why we collect it",
+        body:
+          "Your details are used to reply to your enquiry, prepare a quote, and follow up about the project you described. We do not sell your data and we do not send marketing emails unless you ask us to.",
+      },
+      {
+        title: "How long we keep it",
+        body:
+          "Quote requests are kept for up to 24 months so we have a record of the conversation, then deleted. If you become a client, project files and correspondence are kept for the period required for our records.",
+      },
+      {
+        title: "Where it is stored",
+        body:
+          "Form submissions are stored in a managed database (Supabase) and are only accessible to studio staff through a password-protected admin area. The website itself is hosted by Vercel and does not set advertising cookies.",
+      },
+      {
+        title: "Your choices",
+        body:
+          "You can ask us to correct or delete your details at any time by replying to our email or writing to the studio address on the contact page. We will action requests within 30 days.",
+      },
+    ],
+  },
+
+  testimonials: [
+    {
+      quote:
+        "The flyer did exactly what we needed: people turned up, and several mentioned seeing it in the shop window. Clear, fast, no back-and-forth.",
+      name: "PLACEHOLDER: client name",
+      role: "Owner, neighbourhood retail shop",
+    },
+    {
+      quote:
+        "We had three weeks to fill a venue. Humphinegraphix turned the brief around in two days and the social crops meant we could post the same design everywhere.",
+      name: "PLACEHOLDER: client name",
+      role: "Event organizer",
+    },
+    {
+      quote:
+        "It was for a family celebration, so I wanted it to feel considered rather than templated. It did, and the printer had no questions about the files.",
+      name: "PLACEHOLDER: client name",
+      role: "Private commission",
+    },
+  ],
+
+  faq: [
+    {
+      question: "How quickly can I get a flyer?",
+      answer:
+        "Standard turnaround is 3–5 working days from an approved brief. If your date is closer than that, say so in the quote request — we will tell you straight away whether it is possible.",
+    },
+    {
+      question: "Do you print the flyers, or only design them?",
+      answer:
+        "We design and prepare print-ready files. You can take them to any printer, and we can recommend local printers if you do not have one. We do not take printing payments through this site.",
+    },
+    {
+      question: "What do I need to send you?",
+      answer:
+        "The essentials: what the flyer is for, the date and venue (or business name and address), the key details people must know, and any logo or image you want used. If you have no imagery, we will work with type and layout.",
+    },
+    {
+      question: "How many changes are included?",
+      answer:
+        "One revision round is included as standard, covering wording and layout tweaks. Larger changes of direction are quoted separately before any extra work starts.",
+    },
+    {
+      question: "What files will I receive?",
+      answer:
+        "A print-ready PDF with correct bleed and margins, plus PNG/JPG exports sized for social feeds and messaging apps. You get full usage rights to the design.",
+    },
+    {
+      question: "How does the quote work?",
+      answer:
+        "You pick a budget range in the form, and we reply by email with a fixed quote and a delivery date. Nothing is charged online and there is no cart or checkout — this is a conversation.",
+    },
+  ],
+
   footer: {
     tagline:
       "A flyer design studio for small businesses, event organizers, and individuals who need print that earns a second look.",

@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/admin/services", label: "Services" },
   { href: "/admin/pages", label: "Page copy" },
   { href: "/admin/enquiries", label: "Enquiries" },
+  { href: "/admin/preview", label: "Preview drafts" },
 ];
 
 export function AdminNav({ user }: { user: string }) {
@@ -28,7 +29,10 @@ export function AdminNav({ user }: { user: string }) {
   }
 
   return (
-    <div className="container-page flex flex-wrap items-center justify-between gap-4 py-3">
+    <nav
+      aria-label="Admin sections"
+      className="container-page flex flex-wrap items-center justify-between gap-4 py-3"
+    >
       <div className="flex flex-wrap items-center gap-1">
         {LINKS.map((link) => {
           const active =
@@ -64,6 +68,6 @@ export function AdminNav({ user }: { user: string }) {
           {signingOut ? "Signing out…" : "Sign out"}
         </button>
       </div>
-    </div>
+    </nav>
   );
 }

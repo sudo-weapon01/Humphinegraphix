@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { Testimonials } from "@/components/site/Testimonials";
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 import { getSiteContent } from "@/lib/content/public";
 import { flyerTypeOptions } from "@/lib/content/types";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact & quote request",
   description:
     "Request a flyer design quote from Humphinegraphix. Tell us about your flyer, your date, and your budget range — we reply within one working day.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 export default async function ContactPage() {
   const { pages, services } = await getSiteContent();
@@ -30,7 +34,7 @@ export default async function ContactPage() {
       </header>
 
       <div className="container-page grid gap-10 py-14 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-        <aside aria-label="Studio contact details" className="space-y-6">
+        <aside id="studio-details" aria-label="Studio contact details" className="space-y-6 scroll-mt-24">
           <div className="rounded-[3px] border border-brand-line bg-brand-paper-deep p-6 md:p-7">
             <h2 className="font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">
               Studio details
@@ -94,6 +98,19 @@ export default async function ContactPage() {
 
           <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
             <h2 className="font-heading text-base font-bold tracking-[-0.02em] text-brand-primary">
+              Prefer to chat?
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-brand-muted">
+              Send a message on WhatsApp with your date and what the flyer is for — the studio replies
+              during working hours.
+            </p>
+            <div className="mt-4">
+              <WhatsAppButton source="contact-sidebar" label="Message on WhatsApp" />
+            </div>
+          </div>
+
+          <div className="rounded-[3px] border border-brand-line bg-brand-surface p-6">
+            <h2 className="font-heading text-base font-bold tracking-[-0.02em] text-brand-primary">
               What happens next
             </h2>
             <ol className="mt-4 space-y-3 text-sm text-brand-muted">
@@ -112,7 +129,12 @@ export default async function ContactPage() {
             </ol>
             <p className="mt-5 border-t border-brand-line pt-4 text-[0.78rem] leading-relaxed text-brand-muted">
               This site collects quote requests only. There is no pricing table, no cart, and no
-              online payment — your quote comes by email.
+              online payment — your quote comes by email. We use the details you send to prepare
+              that quote, as described in our{" "}
+              <Link href="/privacy" className="font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4">
+                privacy notice
+              </Link>
+              .
             </p>
           </div>
         </aside>
@@ -121,6 +143,14 @@ export default async function ContactPage() {
           <QuoteForm flyerTypes={flyerTypes} copy={contact} />
         </div>
       </div>
+
+      <Testimonials
+        items={pages.testimonials.slice(0, 3)}
+        tone="surface"
+        eyebrow="Client feedback"
+        title="People who sent the same form"
+        intro="A few words from recent clients, so you know what to expect after you submit."
+      />
     </>
   );
 }

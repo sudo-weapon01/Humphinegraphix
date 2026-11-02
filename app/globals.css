@@ -104,3 +104,35 @@
     color: var(--color-brand-accent-strong);
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Motion                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Anyone who asks their device to reduce motion gets no transitions, no smooth
+ * scrolling, and no spinning loader — the quote form still reports progress via
+ * text. This is a site-wide override, not per component, so new components
+ * inherit the behaviour automatically.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Leave room for the sticky phone CTA so it never covers the footer links. */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 0;
+  }
+}

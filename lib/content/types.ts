@@ -14,6 +14,17 @@ export type ValuePair = {
   body: string;
 };
 
+export type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+};
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type SitePages = {
   home: {
     heroEyebrow: string;
@@ -67,6 +78,14 @@ export type SitePages = {
     socialLabel: string;
     socialUrl: string;
   };
+  privacy: {
+    title: string;
+    intro: string;
+    updated: string;
+    sections: ValuePair[];
+  };
+  testimonials: Testimonial[];
+  faq: FaqItem[];
   footer: {
     tagline: string;
   };

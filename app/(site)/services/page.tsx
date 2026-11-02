@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { getSiteContent } from "@/lib/content/public";
 import { CtaBand } from "@/components/site/CtaBand";
+import { FaqList } from "@/components/site/FaqList";
+import { WhatYouGet } from "@/components/site/WhatYouGet";
 import { ButtonLink } from "@/components/ui/Button";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
     "Flyer design for small businesses, events, and personal celebrations: print-ready PDFs, social crops, and one revision round included.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 export default async function ServicesPage() {
   const { pages, services } = await getSiteContent();
@@ -101,6 +104,15 @@ export default async function ServicesPage() {
         </div>
       </section>
 
+      <div className="mt-16 border-t border-brand-line">
+        <WhatYouGet />
+      </div>
+
+      <FaqList
+        items={pages.faq}
+        intro="Straight answers about turnaround, files, and how quotes work."
+      />
+
       <section aria-label="Choosing a flyer" className="container-page mt-16">
         <div className="max-w-2xl">
           <h2 className="font-heading text-2xl font-extrabold tracking-[-0.03em] text-brand-primary">
@@ -112,7 +124,9 @@ export default async function ServicesPage() {
         </div>
       </section>
 
-      <CtaBand home={pages.home} />
+      <div className="mt-16">
+        <CtaBand home={pages.home} />
+      </div>
     </>
   );
 }

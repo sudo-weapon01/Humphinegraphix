@@ -5,15 +5,17 @@ import { getSiteContent } from "@/lib/content/public";
 import { CtaBand } from "@/components/site/CtaBand";
 import { PortfolioCard } from "@/components/site/PortfolioCard";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { Testimonials } from "@/components/site/Testimonials";
 import { ButtonLink } from "@/components/ui/Button";
 import { AUDIENCE_CARDS, PROCESS_STEPS, STUDIO_FACTS } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Flyer design studio",
   description:
     "Humphinegraphix designs bold, print-ready flyers for small businesses, event organizers, and individuals. Clear design, fast turnaround, quote on request.",
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 export default async function HomePage() {
   const { pages, portfolio, services } = await getSiteContent();
@@ -190,7 +192,15 @@ export default async function HomePage() {
         </p>
       </section>
 
-      <CtaBand home={home} />
+      {/* ---------------------------- Testimonials -------------------------- */}
+      <Testimonials
+        items={pages.testimonials}
+        intro="Quotes from the businesses and organizers the studio has designed for."
+      />
+
+      <div className="pt-16 md:pt-24">
+        <CtaBand home={home} />
+      </div>
     </>
   );
 }
