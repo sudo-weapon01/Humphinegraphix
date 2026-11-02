@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" role="img" aria-label="Placeholder flyer image">
+  <rect width="600" height="800" fill="#f1e9de"/>
+  <rect x="40" y="40" width="520" height="720" fill="none" stroke="#e3d8c9" stroke-width="2" stroke-dasharray="10 10"/>
+  <text x="300" y="380" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="700" fill="#10233f">PLACEHOLDER</text>
+  <text x="300" y="420" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#5c6472">Add a flyer image</text>
+</svg>
