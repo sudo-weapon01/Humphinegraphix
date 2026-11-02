@@ -76,7 +76,7 @@ export default async function AboutPage() {
           <ul className="mt-10 grid gap-6 md:grid-cols-3">
             {about.values.map((value, index) => (
               <li key={index} className="border-t-2 border-brand-primary pt-5">
-                <span aria-hidden="true" className="font-heading text-xs font-bold tabular-nums text-brand-accent">
+                <span aria-hidden="true" className="font-heading text-xs font-bold tabular-nums text-brand-accent-strong">
                   0{index + 1}
                 </span>
                 <h3 className="mt-2 font-heading text-lg font-bold tracking-[-0.02em] text-brand-primary">

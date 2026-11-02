@@ -77,7 +77,7 @@ export default async function AdminOverviewPage() {
               {card.value}
             </p>
             <p className="mt-2 text-[0.78rem] leading-relaxed text-brand-muted">{card.detail}</p>
-            <span className="mt-4 inline-block text-[0.78rem] font-semibold text-brand-accent group-hover:underline">
+            <span className="mt-4 inline-block text-[0.78rem] font-semibold text-brand-accent-strong group-hover:underline">
               Open →
             </span>
           </Link>

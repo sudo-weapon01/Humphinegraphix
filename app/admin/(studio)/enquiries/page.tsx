@@ -57,7 +57,7 @@ export default async function AdminEnquiriesPage() {
                     <p className="font-semibold text-brand-primary">{enquiry.name}</p>
                     <a
                       href={`mailto:${enquiry.email}`}
-                      className="text-brand-accent hover:underline"
+                      className="text-brand-accent-strong hover:underline"
                     >
                       {enquiry.email}
                     </a>

@@ -12,7 +12,7 @@ type WordmarkProps = {
  */
 export function Wordmark({ tone = "dark", className = "" }: WordmarkProps) {
   const text = tone === "light" ? "text-brand-paper" : "text-brand-primary";
-  const accent = tone === "light" ? "text-brand-gold" : "text-brand-accent";
+  const accent = tone === "light" ? "text-brand-gold" : "text-brand-accent-strong";
 
   return (
     <Link

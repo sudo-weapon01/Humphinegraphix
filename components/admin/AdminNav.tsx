@@ -51,7 +51,7 @@ export function AdminNav({ user }: { user: string }) {
       </div>
 
       <div className="flex items-center gap-3 text-[0.78rem]">
-        <Link href="/" className="font-semibold text-brand-primary hover:text-brand-accent" target="_blank">
+        <Link href="/" className="font-semibold text-brand-primary hover:text-brand-accent-strong" target="_blank">
           View site ↗
         </Link>
         <span className="hidden text-brand-muted sm:inline">Signed in as {user}</span>

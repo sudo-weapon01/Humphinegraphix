@@ -107,7 +107,7 @@ export default async function HomePage() {
               key={card.audience}
               className="group flex flex-col rounded-[3px] border border-brand-line bg-brand-surface p-6 transition-shadow duration-300 hover:shadow-card md:p-7"
             >
-              <span className="font-heading text-sm font-bold tabular-nums text-brand-accent">
+              <span className="font-heading text-sm font-bold tabular-nums text-brand-accent-strong">
                 0{index + 1}
               </span>
               <h3 className="mt-4 font-heading text-xl font-bold tracking-[-0.02em] text-brand-primary">
@@ -168,7 +168,7 @@ export default async function HomePage() {
             <li key={step.title} className="flex gap-5 border-t border-brand-line pt-5">
               <span
                 aria-hidden="true"
-                className="font-heading text-2xl font-extrabold tabular-nums leading-none text-brand-accent/70"
+                className="font-heading text-2xl font-extrabold tabular-nums leading-none text-brand-accent-strong/80"
               >
                 {String(index + 1).padStart(2, "0")}
               </span>

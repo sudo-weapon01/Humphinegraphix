@@ -59,6 +59,9 @@ export function labelForPath(path: string): string {
   const text = last
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/[_-]+/g, " ")
+    .replace(/\bcta\b/gi, "CTA")
+    .replace(/\burl\b/gi, "URL")
+    .replace(/\bid\b/gi, "ID")
     .trim();
   return text.charAt(0).toUpperCase() + text.slice(1);
 }

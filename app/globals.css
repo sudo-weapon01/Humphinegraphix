@@ -18,6 +18,8 @@
   --color-brand-primary: #10233f; /* PLACEHOLDER_BRAND_PRIMARY (ink navy) */
   --color-brand-primary-soft: #1c3557; /* PLACEHOLDER_BRAND_PRIMARY_SOFT */
   --color-brand-accent: #d9622b; /* PLACEHOLDER_BRAND_ACCENT (rust) */
+  /* Darker rust used for small text so it meets WCAG AA on paper. */
+  --color-brand-accent-strong: #b8481a; /* PLACEHOLDER_BRAND_ACCENT_STRONG */
   --color-brand-accent-soft: #f6e3d7; /* PLACEHOLDER_BRAND_ACCENT_SOFT */
   --color-brand-gold: #e8b04b; /* PLACEHOLDER_BRAND_SECONDARY (gold) */
   --color-brand-ink: #12100e; /* PLACEHOLDER_BRAND_INK (body text) */
@@ -99,6 +101,6 @@
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-brand-accent);
+    color: var(--color-brand-accent-strong);
   }
 }

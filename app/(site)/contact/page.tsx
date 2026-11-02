@@ -43,7 +43,7 @@ export default async function ContactPage() {
                 <dd className="mt-1">
                   <a
                     href={`mailto:${contact.email}`}
-                    className="font-medium text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent"
+                    className="font-medium text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent-strong"
                   >
                     {contact.email}
                   </a>
@@ -56,7 +56,7 @@ export default async function ContactPage() {
                 <dd className="mt-1">
                   <a
                     href={`tel:${contact.phone.replace(/\s+/g, "")}`}
-                    className="font-medium text-brand-primary hover:text-brand-accent"
+                    className="font-medium text-brand-primary hover:text-brand-accent-strong"
                   >
                     {contact.phone}
                   </a>
@@ -81,7 +81,7 @@ export default async function ContactPage() {
                 <dd className="mt-1">
                   <a
                     href={contact.socialUrl}
-                    className="font-medium text-brand-primary hover:text-brand-accent"
+                    className="font-medium text-brand-primary hover:text-brand-accent-strong"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -103,7 +103,7 @@ export default async function ContactPage() {
                 "You approve, we design, you get print-ready files.",
               ].map((step, index) => (
                 <li key={step} className="flex gap-3">
-                  <span className="font-heading text-xs font-bold tabular-nums text-brand-accent">
+                  <span className="font-heading text-xs font-bold tabular-nums text-brand-accent-strong">
                     0{index + 1}
                   </span>
                   <span className="leading-relaxed">{step}</span>

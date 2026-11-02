@@ -107,7 +107,7 @@ export function ContentNode({ path, value, errors, onChange, depth = 0 }: Conten
     return (
       <fieldset className="sm:col-span-2">
         {depth > 0 ? (
-          <legend className="mb-3 text-[0.8rem] font-bold uppercase tracking-[0.12em] text-brand-accent">
+          <legend className="mb-3 text-[0.8rem] font-bold uppercase tracking-[0.12em] text-brand-accent-strong">
             {labelForPath(path)}
           </legend>
         ) : null}

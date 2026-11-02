@@ -20,7 +20,7 @@ type QuoteFormProps = {
 type FieldErrors = Partial<Record<keyof QuoteInput, string>>;
 
 const inputClass =
-  "w-full rounded-[2px] border border-brand-line bg-brand-surface px-3.5 py-2.5 text-sm text-brand-ink placeholder:text-brand-muted/60 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-accent/30";
+  "w-full rounded-[2px] border border-brand-line bg-brand-surface px-3.5 py-2.5 text-sm text-brand-ink placeholder:text-brand-muted/75 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-accent/30";
 
 const labelClass = "block text-[0.8rem] font-semibold text-brand-primary";
 
@@ -107,7 +107,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
         role="status"
         aria-live="polite"
       >
-        <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-accent-soft text-brand-accent">
+        <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-accent-soft text-brand-accent-strong">
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
             <path d="M4 12.5l5 5L20 6.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
@@ -119,7 +119,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-6 text-sm font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent"
+          className="mt-6 text-sm font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent-strong"
         >
           Send another request
         </button>
@@ -163,7 +163,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor={fieldId("name")} className={labelClass}>
-            Name <span aria-hidden="true" className="text-brand-accent">*</span>
+            Name <span aria-hidden="true" className="text-brand-accent-strong">*</span>
           </label>
           <input
             id={fieldId("name")}
@@ -187,7 +187,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div>
           <label htmlFor={fieldId("email")} className={labelClass}>
-            Email <span aria-hidden="true" className="text-brand-accent">*</span>
+            Email <span aria-hidden="true" className="text-brand-accent-strong">*</span>
           </label>
           <input
             id={fieldId("email")}
@@ -236,7 +236,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div>
           <label htmlFor={fieldId("flyerType")} className={labelClass}>
-            Flyer type <span aria-hidden="true" className="text-brand-accent">*</span>
+            Flyer type <span aria-hidden="true" className="text-brand-accent-strong">*</span>
           </label>
           <select
             id={fieldId("flyerType")}
@@ -308,7 +308,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div className="sm:col-span-2">
           <label htmlFor={fieldId("budgetRange")} className={labelClass}>
-            Budget range <span aria-hidden="true" className="text-brand-accent">*</span>
+            Budget range <span aria-hidden="true" className="text-brand-accent-strong">*</span>
           </label>
           <select
             id={fieldId("budgetRange")}
@@ -339,7 +339,7 @@ export function QuoteForm({ flyerTypes, copy }: QuoteFormProps) {
 
         <div className="sm:col-span-2">
           <label htmlFor={fieldId("message")} className={labelClass}>
-            Tell us about the flyer <span aria-hidden="true" className="text-brand-accent">*</span>
+            Tell us about the flyer <span aria-hidden="true" className="text-brand-accent-strong">*</span>
           </label>
           <textarea
             id={fieldId("message")}

@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <div className="grid min-h-dvh place-items-center bg-brand-paper px-5 py-16">
       <div className="max-w-md text-center">
-        <p className="font-heading text-sm font-extrabold uppercase tracking-[0.2em] text-brand-accent">
+        <p className="font-heading text-sm font-extrabold uppercase tracking-[0.2em] text-brand-accent-strong">
           404
         </p>
         <h1 className="mt-4 font-heading text-[clamp(1.9rem,5vw,2.8rem)] font-extrabold leading-[1.05] tracking-[-0.04em] text-brand-primary">
